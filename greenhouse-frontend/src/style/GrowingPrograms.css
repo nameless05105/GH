@@ -1,0 +1,16 @@
+.menu-link {
+    padding: 0 1em 0 2em;
+}
+.growing-program{
+    padding: 1em;
+}
+.growing-program-name{
+    padding-bottom: 1em;
+    border-bottom: 2px solid #ffcfa4;
+}
+.growing-program-title{
+    padding: 0 1em;
+}
+.growing-program-data{
+    padding-top: 1em;
+}

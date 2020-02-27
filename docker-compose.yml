@@ -1,0 +1,66 @@
+version: "3.7"
+
+services:
+
+    frontend:
+        build: ./greenhouse-frontend
+        restart: always
+        hostname: localhost
+        ports:
+            - 3000:3000
+            
+        command: npm start
+        depends_on:
+            - rabbitmq-mqtt
+
+    backend:
+        build: ./greenhouse-backend
+        restart: always
+        hostname: localhost
+        ports:
+            - 5000:5000
+            - 8090:8090
+        command: npm start
+        depends_on:
+            - rabbitmq-mqtt
+
+    rabbitmq-mqtt:
+        build: ./rabbitmq
+        hostname: localhost
+        restart: always
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+            - "1883:1883"
+        volumes:
+            - ./rabbitmq-isolated.conf:/etc/rabbitmq/rabbitmq.config
+
+    dbmodule:
+        build: dbmodule/
+        command: python ./dbmodule.py
+        hostname: localhost
+        restart: always
+    
+    rdts-module:
+        build: recieve-data-to-server-module/
+        command: python ./recieve-data-to-server-module.py
+        hostname: localhost
+        restart: always
+
+    ansm-module:
+        build: add-new-sensor-module/
+        command: python ./add-new-sensor-module.py
+        hostname: localhost
+        restart: always
+   
+    mongopi:
+        build: mongopi/
+        hostname: localhost
+        ports:
+            - "27017:27017"
+            - "28017:28017"
+        stop_signal: SIGINT
+        
+    mongodump:
+        build: mongodump-module/
+        hostname: localhost

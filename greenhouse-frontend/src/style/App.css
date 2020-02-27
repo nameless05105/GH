@@ -1,0 +1,273 @@
+.App {
+
+  position: absolute;
+  text-align: center;
+  background: linear-gradient(to top left, #2d2d35, #46495a);
+  color:  white;
+  font-family: 'Roboto';
+  min-height: 100%;
+  min-width: 100%;
+  
+}
+.app-body {
+  padding: 1em 1em;
+  max-width: 1400px;
+  margin: auto;
+  cursor: default;
+  height: 100%;
+}
+
+.col-md-4 {
+  padding: 0 !important;
+} 
+
+ul.menu {
+  padding: 0;
+  width: 100%;
+}
+ul.menu li {
+  list-style-type: none;
+  display: block;
+  float: left;
+  /* background: #777; */
+  margin: 0;
+  padding: 0.5em 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* Fixes Firefox bug */
+  box-sizing: border-box;
+  /* width: 20%; */
+  text-align: center;
+  
+}
+/* ul.menu li:hover {
+  background: #888;
+} */
+
+div.open-panel, i.close-panel {
+  display: none;
+}
+
+@media only screen and (max-width: 55em) {
+
+  .chart{
+    width: 25em !important;
+    height: 15em !important;
+  }
+  .sensor{
+    padding: 1em 0 !important;
+  }
+  .device{
+    margin-bottom: 1em  !important;
+  }
+  .app-body{
+    padding:0 2em  !important;
+  }
+}
+
+
+
+option{
+  color: #2d2d35;
+}
+i{
+  cursor: pointer;
+}
+a{
+  color: aliceblue;
+}
+a:hover{
+  color: #bbb;
+}
+nav{
+  border-bottom: 2px solid #ffcfa4;
+  
+}
+.nav-body{
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.wrapperProgram {
+  
+  background: linear-gradient(to right, #73767f, #5a5c68);
+  border-radius: 10px;
+  padding-left: 3em;
+  padding-bottom: 1em;
+
+  
+}
+.sensors{
+  padding: 1em !important;
+}
+.sensor {
+  padding: 1em;
+}
+.sensor-value {
+  font-size: 32px;
+}
+.button-m {
+  padding-top: 1em;
+}
+
+/* *********** */
+/*    Sensor   */
+/* *********** */
+
+
+/* **************************** */
+/* Control panel and indicators */
+/* **************************** */
+
+/* .wrapperIndicator {
+  
+  background: linear-gradient(to right, #73767f, #5a5c68);
+  border-radius: 10px;
+  height: 80px;
+  padding-top: 1em;
+} */
+.indicator {
+  padding: 1em;
+ 
+}
+
+.controlPanel {
+  padding: 1em ;
+  
+}
+
+
+
+
+
+/* **************************** */
+/********** Button element*********** */
+/* **************************** */
+
+.button-row{
+  padding: 1.5em 1em;
+}
+
+
+
+
+
+/* **************************** */
+/********** Block for growing program element*********** */
+/* **************************** */
+
+.block {
+  padding: 1em;
+}
+
+.group-list{
+  text-transform: capitalize;
+  font-size: 16px;
+  padding: 0 4em;
+  text-align: center !important;
+}
+.device-list{
+  text-transform: capitalize;
+  font-size: 16px;
+  padding: 0 1em;
+  text-align: left;
+}
+.group-managment-element{
+  padding: 0em 0.5em 0 1em;
+  color: #fff;
+}
+.group-managment-element-stop{
+  padding: 0em 2.5em 0 1em;
+}
+.growing-program-start{
+  text-align: left;
+}
+/* **************************** */
+/********** Block for growing program element*********** */
+/* **************************** */
+
+
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  
+  right: 0;
+  padding: 1em 1em;
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+.select:disabled{
+  color: #9098a9;
+}
+
+/* .modal{
+  display: block !important;
+  overflow-y: scroll;
+  
+} */
+.capitalize{
+  text-transform: capitalize;
+}
+
+.menu{
+  text-align: left;
+}
+.menu-link {
+  padding: 0 1em 0 2em;
+  cursor: pointer;
+}
+.auth-icon {
+  margin: 0 0 0 auto;
+}
+.fa-sign-in-alt, .fa-sign-out-alt{
+  font-size: 1.5em;
+}
+
+
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.slideout-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  width: 256px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  display: none;
+}
+
+.slideout-panel {
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+  overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+  display: block;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+

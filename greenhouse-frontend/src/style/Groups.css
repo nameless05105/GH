@@ -1,0 +1,126 @@
+.group-title {
+    padding: 0 1em;
+    margin: 0.5em;
+    text-align: left !important;
+}
+.title{
+    font-size: 32px;
+    text-align: left !important;
+    /* padding-bottom: 1em; */
+}
+.data-title{
+    font-size: 14px;
+    color:#c8ccd4;
+}
+
+
+.sensor-value {
+    font-size: 32px;
+}
+.sensor-name{
+    text-transform: capitalize;
+    font-size: 16px;
+}
+.device-title{
+    text-transform: capitalize;
+    font-size: 22px;
+}
+.device-row{
+    padding: 1em 0 0 1em;
+}
+.wrapperGroup{
+    background: linear-gradient(to right, #73767f, #5a5c68);
+    border-radius: 10px;
+    padding: 3em 4em;
+    margin: 1em 0 0 1em;
+}
+.wrapper-data{
+    padding: 1.5em 0 0.5em;
+    border-bottom: solid #c8ccd4 2px;
+}
+
+.wrapperSensor{
+    background: linear-gradient(to right, #73767f, #5a5c68);
+    border-radius: 10px;
+    padding:1em;
+}
+
+.wrapperGroup-item{
+    background: linear-gradient(to right, #73767f, #5a5c68);
+    border-radius: 10px;
+    padding:1em;
+    margin:2em 0;
+}
+.wrapperGroup-item:hover{
+    color:#bbb;
+    cursor: pointer;
+}
+.button-value{
+    padding: 0.25em 0 0;
+    text-align: center !important;
+    margin: auto;
+    font-size: 32px;
+}
+.button-name, .device-name{
+    text-align: center !important;
+    text-transform: uppercase;
+    margin: auto;
+}
+.input-range__track--active, .input-range__slider{
+    background: #ffcfa4 !important;
+    border: #ffcfa4 !important;
+}
+
+.wrapperIndicator {
+    background: linear-gradient(to right, #73767f, #5a5c68);
+    border-radius: 10px;
+    height: 80px;
+    padding-top: 1em;
+}
+.indicator-name {
+    text-transform: capitalize;
+    font-size: 32px;
+}
+.wrapper-indicator-name{
+    padding-right: 0 !important;
+  } 
+.wrapper-input-range{
+    padding-top: 1em;
+}
+.wrapper-input-value{
+    padding: 0.35em 0 !important;
+    font-size: 32px
+}
+
+.wrapperDevice {
+    background: linear-gradient(to right, #73767f, #5a5c68);
+    border-radius: 10px;
+    height: 90px;
+}
+
+.device-edit{
+    text-align: center;
+    padding: 0.75em 0 0; 
+}
+.wrapper-search-result-block{
+    margin: 1em 0;
+}
+.wrapper-group-list-title{
+    margin-top: 1em;
+    cursor: pointer;
+}
+/* .wrapper-auth{
+    margin: 0 25em;
+} */
+/* .wrapper-button{
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+}
+.wrapper-button-active{
+    background: linear-gradient(to right, #73767f, #5a5c68);
+    border: 2px solid linear-gradient(to right, #73767f, #5a5c68);;
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+} */
