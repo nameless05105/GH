@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GrowingProgram from './GrowingProgram';
 import { openModal } from '../../actions/modal';
+
+import Modal from '../Modal/Modal';
 import '../../style/GrowingPrograms.css';
 import {sendData} from '../../index';
 
@@ -21,6 +23,7 @@ class GrowingPrograms extends Component {
   render() {
     return (
       <div>
+        <Modal isOpen = {this.props.modal.isOpen} titleModal={this.props.modal.titleModal} typeModal={this.props.modal.typeModal}  content={this.props.modal.content}/>
         <div className='row second-menu justify-content-md-center'>
           <div className='col-md-auto menu-link'>
             <p  onClick={this.createGrowingProgram.bind(this)}>New program</p>
@@ -46,6 +49,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     
   createGrowingProgram: growingPrograms => {
+    console.log('cretea')
     dispatch(openModal({
       typeModal: 'createGrowingProgram',
       content: growingPrograms,

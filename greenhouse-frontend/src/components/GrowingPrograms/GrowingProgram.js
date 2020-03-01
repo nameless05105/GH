@@ -100,7 +100,7 @@ class GrowingProgram extends Component {
     );
     return (
         <div className='growing-program'>
-          <Modal isOpen = {this.props.modal.isOpen} titleModal={this.props.modal.titleModal} typeModal={this.props.modal.typeModal}  content={this.props.modal.content}/>
+          {/* <Modal isOpen = {this.props.modal.isOpen} titleModal={this.props.modal.titleModal} typeModal={this.props.modal.typeModal}  content={this.props.modal.content}/> */}
           <div className='row growing-program-name'>
                 <div className='growing-program-title'><h3>{this.props.program.programName}</h3></div>
                 <div className='col-3'><h3>{this.props.program.days} days</h3></div>

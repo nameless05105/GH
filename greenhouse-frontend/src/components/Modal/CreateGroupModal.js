@@ -10,6 +10,7 @@ class CreateGroupModal extends React.Component{
         super(props)
         this.state = {
             checkedItems: [],
+            err:''
           }
         this.close = this.close.bind(this);
         this.save = this.save.bind(this);
@@ -33,18 +34,29 @@ class CreateGroupModal extends React.Component{
     close(){
         this.props.close();
     }
+    
     save(){
+        
         const id = uuidv4();
         const title = this.getTitle.value;
+        const solution = this.getSolution.value;
+        const plant = this.getPlant.value;
+        const program = this.getProgram.value;
         const devices = this.state.checkedItems;
-        const data = {
-            id,
-            title,
-            devices
-        };
-
-        this.props.createGroup(data);
-        this.close();
+        if ((title !== '') && (solution !== '')  && (plant !== '')  && (program !== '') && (devices !== '')) {
+            const data = {
+                id,
+                title,
+                devices,
+                solution,
+                plant,
+                program
+            };
+            this.setState({err:''})
+            this.props.createGroup(data);
+            this.close();
+        }
+        else this.setState({err:'Все поля должны быть заполнены'})
     }
     changeTitle(title) {
         this.setState({title})
@@ -53,6 +65,7 @@ class CreateGroupModal extends React.Component{
        
         return (
             <div>
+              <p>{this.state.err}</p>
                 <div className='modal-body'>
                     <div className='row modal-input-row'>
                       <div className='col-12'>
@@ -63,6 +76,38 @@ class CreateGroupModal extends React.Component{
                         </label>
                       </div>
                     </div>
+
+                    <div className='row modal-input-row'>
+                      <div className='col-12'>
+                        <label  className='inp'>
+                          <input type='text' placeholder="&nbsp;" ref={input => (this.getSolution = input)} />
+                            <span className='label'>Solution</span>
+                            <span className='border'></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className='row modal-input-row'>
+                      <div className='col-12'>
+                        <label  className='inp'>
+                          <input type='text' placeholder="&nbsp;" ref={input => (this.getPlant = input)} />
+                            <span className='label'>Plant</span>
+                            <span className='border'></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className='row modal-input-row'>
+                      <div className='col-12'>
+                        <label  className='inp'>
+                          <input type='text' placeholder="&nbsp;" ref={input => (this.getProgram = input)} />
+                            <span className='label'>Growing Program</span>
+                            <span className='border'></span>
+                        </label>
+                      </div>
+                    </div>
+
+
                     {
                       this.props.devices.map(item => (
                         <div key={item.id} className='row checkbox'>
@@ -78,7 +123,7 @@ class CreateGroupModal extends React.Component{
                     }
                         
                 </div>
-                <div className='modal-footer'>
+                <div class='modal-footer'>
                     <button type='button' className='btn btn-success' onClick={this.save}>Save</button>
                     <button type='button' className='btn btn-secondary' onClick={this.close}>Close</button>
                 </div>
@@ -97,7 +142,7 @@ const mapDispatchToProps = dispatch => ({
     createGroup: data => {
         dispatch(sendData(data,'CREATE_GROUP'))
         // if (request){
-          dispatch(createGroup(data))
+          // dispatch(createGroup(data))
         // }
     },
     close: () => {

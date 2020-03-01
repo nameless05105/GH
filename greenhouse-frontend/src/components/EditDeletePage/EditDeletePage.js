@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GroupList from './GroupList';
 import {sendData} from '../../index';
+import RenderPage from './RenderPage'
 
 import Modal from '../Modal/Modal';
 import { openModal } from '../../actions/modal';
@@ -24,38 +25,43 @@ class EditDeletePage extends Component {
   }
   
   render() {
-    
-    return (
-      <div>
-          {/* <div className="nav-body">
-            <p  onClick={this.createGroup.bind(this)} >Add group</p>
-            <p   onClick={this.createDevice.bind(this)} >Add device</p>
-          </div> */}
+    const isLoading  = this.props.groups;
+    const isLoadingd  = this.props.device;
+    console.log(isLoading )
+    if (isLoading === null && isLoadingd === null) return <p>loading</p>
+    else return <RenderPage />
+    // return (
+    //   <div>
+    //       {/* <div className="nav-body">
+    //         <p  onClick={this.createGroup.bind(this)} >Add group</p>
+    //         <p   onClick={this.createDevice.bind(this)} >Add device</p>
+    //       </div> */}
         
-        <div className='row second-menu justify-content-md-center'>
-          <div className='col-md-auto menu-link'>
-            <p  onClick={this.createGroup.bind(this)} >Add group</p>
-          </div>
-          <div className='col-md-auto menu-link'>
-            <p   onClick={this.createDevice.bind(this)} >Add device</p>
-          </div>
-        </div>
-        <br/>
-          <Modal isOpen = {this.props.modal.isOpen}  titleModal={this.props.modal.titleModal} typeModal={this.props.modal.typeModal}  content={this.props.modal.content} />
+    //     <div className='row second-menu justify-content-md-center'>
+    //       <div className='col-md-auto menu-link'>
+    //         <p  onClick={this.createGroup.bind(this)} >Add group</p>
+    //       </div>
+    //       <div className='col-md-auto menu-link'>
+    //         <p   onClick={this.createDevice.bind(this)} >Add device</p>
+    //       </div>
+    //     </div>
+    //     <br/>
+    //       <Modal isOpen = {this.props.modal.isOpen}  titleModal={this.props.modal.titleModal} typeModal={this.props.modal.typeModal}  content={this.props.modal.content} />
          
-          {this.props.groups.map(group => (
-            <GroupList key={group.id} group={group} />
-          ))}
+    //       {/* {this.props.groups.map(group => (
+    //         <GroupList key={group.id} group={group} />
+    //       ))} */}
 
-      </div>
-    );
+    //   </div>
+    // );
    }
 }
  
 const mapStateToProps = state => {
     return {
       groups: state.groupReducer,
-      modal: state.modalReducer
+      modal: state.modalReducer,
+      device: state.deviceReducer
     };
 };
 

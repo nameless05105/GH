@@ -41,9 +41,12 @@ class GroupList extends Component {
   }
 
   render() {
+    console.log(this.props.group.title)
     const items = this.props.group.devices.map(id => {
         let device = this.props.devices.find(device => device.id === id);
         return <DeviceList key={device.id} device={device} />
+        // console.log('id',id)
+        
       });
 
     let changeStatusButton = null;
@@ -79,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
   delete: data => {
     const modif_data = {id:data}
       dispatch(sendData(modif_data, 'DELETE_GROUP'))
-      dispatch(deleteGroup(data))
+      // dispatch(deleteGroup(data))
       
   },
   edit: group => {

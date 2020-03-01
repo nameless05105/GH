@@ -8,14 +8,14 @@ import Sensor from './Sensor';
 class Device extends Component {
 
   render() {
-    const items = this.props.sensors.map(sensor => {
-        if (sensor.MACaddr === this.props.device.MACaddr)
-        return <Sensor sensor={sensor} key={sensor.id}/>
-    })
+    // const items = this.props.sensors.map(sensor => {
+    //     if (sensor.MACaddr === this.props.device.MACaddr)
+    //     return <Sensor sensor={sensor} key={sensor.id}/>
+    // })
     return (
       <div >
         <div className='row device-row'><h3 className='device-title'>{this.props.device.name}</h3></div>
-        <div className='row'>{items}</div>
+        {/* <div className='row'>{items}</div> */}
       </div>
     );
   }

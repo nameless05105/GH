@@ -31,13 +31,14 @@ const renderApp = preloadedState => {
   //   saveState(store.getState());
   // });
   
-  console.log(store.getState())
+
   socket.on('UPDATE_DEVICE_DATA', state =>{
   store.dispatch({type: 'UPDATE_DEVICE_DATA', state});
   console.log(store.getState())}
   );
-  socket.on('UPDATE_GROUP_DATA', state =>
-    store.dispatch({type: 'UPDATE_GROUP_DATA', state})
+  socket.on('UPDATE_GROUP_DATA', state =>{
+    store.dispatch({type: 'UPDATE_GROUP_DATA', state});
+    console.log(store.getState())}
   );
   socket.on('UPDATE_PROGRAM_DATA', state =>
     store.dispatch({type: 'UPDATE_PROGRAM_DATA', state})

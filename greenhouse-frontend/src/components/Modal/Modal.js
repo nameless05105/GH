@@ -3,8 +3,14 @@ import {connect} from 'react-redux';
 import { closeModal } from '../../actions/modal';
 import EditGroupModal from './EditGroupModal';
 import EditDeviceModal from './EditDeviceModal';
+import EditGrowingProgramModal from './EditGrowingProgramModal';
 import CreateGroupModal from './CreateGroupModal';
 import CreateDeviceModal from './CreateDeviceModal';
+import CreateChartModal from './CreateChartModal';
+import CreateGrowingProgramModal from '../Modal/CreateGrowingProgramModal';
+import StartGrowingProgramModal from '../Modal/StartGrowingProgramModal';
+import EditPhModal from '../Modal/EditPhModal';
+import EditPpmModal from '../Modal/EditPpmModal';
 import { } from '../../actions/group';
 
 import '../../style/Modal.css'
@@ -29,8 +35,14 @@ class Modal extends React.Component {
         
         if (typeModal==='editGroup') {this.modalBody = <EditGroupModal content = {content} />}
         if (typeModal==='editDevice') {this.modalBody = <EditDeviceModal content = {content} />}
+        if (typeModal==='editGrowingProgram') {this.modalBody = <EditGrowingProgramModal content = {content} />}
         if (typeModal==='createGroup') {this.modalBody = <CreateGroupModal content = {content} />}
         if (typeModal==='createDevice') {this.modalBody = <CreateDeviceModal content = {content} />}
+        if (typeModal==='createGrowingProgram') {this.modalBody = <CreateGrowingProgramModal content = {content}/>}
+        if (typeModal==='startGrowingProgram') {this.modalBody = <StartGrowingProgramModal content = {content}/>}
+        if (typeModal==='createChart') {this.modalBody = <CreateChartModal content = {content}/>}
+        if (typeModal==='editPh') {this.modalBody = <EditPhModal content = {content}/>}
+        if (typeModal==='editPpm') {this.modalBody = <EditPpmModal content = {content}/>}
         if (!isOpen) {return null;}
 
         return (

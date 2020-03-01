@@ -27,7 +27,7 @@ class Group extends Component {
       <div className="wrapperGroup container" >
           <h3 className="title m-0">{this.props.group.title}</h3>
 
-            <div className='row m-0 pl-9'>
+            {/* <div className='row m-0 pl-9'>
                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 wrapper-data mr-4">
                     <div className='row data-title pb-2  m-0'>date</div>
                     <div className='row m-0'><h3>{this.props.group.date}</h3></div>
@@ -37,9 +37,9 @@ class Group extends Component {
                     <div className='row data-title pb-2  m-0'>time</div>
                     <div className='row m-0'><h3>{this.props.group.time}</h3></div>
                 </div>
-            </div>
+            </div> */}
             
-            <div className='row m-0 pl-9'>
+            {/* <div className='row m-0 pl-9'>
                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 wrapper-data mr-4">
                     <div className='row data-title pb-2  m-0'>
                         ph <div  className='group-managment-element'><i onClick={this.editPh.bind(this)} className="fas fa-pen"></i></div>
@@ -53,7 +53,7 @@ class Group extends Component {
                     </div>
                     <div className='row m-0'><h3>{this.props.group.ppm}</h3></div>
                 </div>
-            </div>
+            </div> */}
 
             
 
@@ -71,7 +71,7 @@ class Group extends Component {
 
         <div className='wrapper-data'>
           <div className='row data-title pb-2  m-0'>Growing Program</div>
-          <div className='row m-0'><h3>{this.props.group.growingProgram}</h3></div>
+          <div className='row m-0'><h3>{this.props.group.program}</h3></div>
         </div>
         
         <Modal isOpen = {this.props.modal.isOpen}  titleModal={this.props.modal.titleModal} typeModal={this.props.modal.typeModal}  content={this.props.modal.content} />

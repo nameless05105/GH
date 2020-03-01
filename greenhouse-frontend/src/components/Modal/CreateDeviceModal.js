@@ -10,7 +10,10 @@ import uuidv4  from 'uuid/v4';
 class CreateDeviceModal extends React.Component{
     constructor(props){
       super(props)
-      this.state={displayValues: false}
+      this.state={
+        displayValues: false,
+        err:''
+      }
       this.close = this.close.bind(this);
       this.save = this.save.bind(this);
       this.changeTitle = this.changeTitle.bind(this);
@@ -28,23 +31,20 @@ class CreateDeviceModal extends React.Component{
     save(){
       const id = uuidv4();
       const name = this.getTitle.value;
-      const typeDevice = this.getTypeDevice.value;
-      const pin = this.getPin.value;
-      const dataBus = this.getDatabus.value;
-      const groupId = Number(this.getGroup.value);
-
-      const data = {
-        id,
-        name,
-        typeDevice,
-        pin,
-        dataBus,
-        groupId
-      };
-        console.log(data);
-  
-      this.props.createDevice(data);
-      this.close();
+      const groupId = this.getGroup.value;
+      const MACaddr = this.getMACaddr.value;
+      if ((name !== '') && (groupId !== '')  && (MACaddr !== '')) {
+        const data = {
+          id,
+          name,
+          groupId,
+          MACaddr
+        };
+          console.log(data);
+        this.setState({err:''})
+        this.props.createDevice(data);
+        this.close();
+      } else this.setState({err:'Все поля должны быть заполнены'})
     }
     
     changeTitle(title) {
@@ -53,12 +53,23 @@ class CreateDeviceModal extends React.Component{
     render(){
         return (
             <div>
+              <p>{this.state.err}</p>
                 <div className='modal-body'>
                       <div className='row modal-input-row'>
                         <div className='col-12'>
                           <label  className='inp'>
                             <input type='text' ref={input => (this.getTitle = input)} placeholder="&nbsp;"/>
                               <span className='label'>Device name</span>
+                              <span className='border'></span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className='row modal-input-row'>
+                        <div className='col-12'>
+                          <label  className='inp'>
+                            <input type='text' ref={input => (this.getMACaddr = input)} placeholder="&nbsp;"/>
+                              <span className='label'>MAC address</span>
                               <span className='border'></span>
                           </label>
                         </div>
@@ -83,62 +94,7 @@ class CreateDeviceModal extends React.Component{
                         {/* </div> */}
                       </div>
                           
-                      <div className='row modal-input-row'>
-
-                          <label  className='inp'>
-                            <div className='select'>
-                            <select id='sel'  ref={input => (this.getTypeDevice = input)} placeholder="&nbsp;" onChange={this.handleChange.bind(this)}>
-                              <option selected disabled>Type</option>
-                              <option value='Button'>Button</option>
-                              <option value='Range'>Range</option>
-                              <option value='Sensor'>Sensor</option>
-                            </select>
-                            </div>
-                           </label>
-                           
-                      </div>
                       
-                      {/* <div className='min-max-value-for-device' >
-                        <div className='row modal-input-row'> 
-                          <label  className='inp'>
-                            <input type='text' ref={input => (this.getPin = input)} placeholder="&nbsp;"/>
-                            <span className='label'>Min value</span>
-                            <span className='border'></span>
-                          </label>
-                        </div>
-                        <div className='row modal-input-row'> 
-                          <label  className='inp'>
-                            <input type='text' ref={input => (this.getPin = input)} placeholder="&nbsp;"/>
-                            <span className='label'>Max value</span>
-                            <span className='border'></span>
-                          </label>
-                        </div>
-                      </div> */}
-
-                      {/* <div className='row modal-input-row'>
-
-                          <label  className='inp'>
-                            <input type='select' ref={input => (this.getPin = input)} placeholder="&nbsp;"/>
-                            <span className='label'>Pin</span>
-                            <span className='border'></span>
-                           </label>
-
-                      </div> */}
-
-                      {/* <div className='row modal-input-row'>
-
-                          <label  className='inp'>
-                            <div className='select'>
-                              <select className='select' ref={input => (this.getDatabus = input)} placeholder="&nbsp;">
-                                <option selected disabled>Data bus</option>
-                                <option>SPI</option>
-                                <option>UAPT</option>
-                                <option>ISC</option>
-                              </select>
-                            </div>
-                          </label>
-
-                      </div> */}
                         
                 </div>
                 <div className='modal-footer'>
@@ -159,8 +115,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     createDevice: data => {
         dispatch(sendData(data,'CREATE_DEVICE'))
-        dispatch(createDevice(data))
-        dispatch(addNewDeviceToGroup(data.id,data.groupId))
+        // dispatch(createDevice(data))
+        // dispatch(addNewDeviceToGroup(data.id,data.groupId))
     },
     close: () => {
       dispatch(closeModal())

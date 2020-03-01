@@ -13,9 +13,16 @@ class EditGroupModal extends React.Component{
             id:this.props.content.id,
             title:this.props.content.title,
             checkedItems: this.props.content.devices,
+            solution: this.props.content.solution,
+            plant: this.props.content.plant,
+            program: this.props.content.program,
+            err:''
         }
         this.save = this.save.bind(this);
         this.changeTitle = this.changeTitle.bind(this);
+        this.changeSolution = this.changeSolution.bind(this);
+        this.changePlant = this.changePlant.bind(this);
+        this.changeProgram = this.changeProgram.bind(this);
         this.handleChange = this.handleChange.bind(this);
         
     }
@@ -40,9 +47,14 @@ class EditGroupModal extends React.Component{
         id: this.state.id,
         title: this.state.title,
         devices: this.state.checkedItems,
+        solution: this.state.solution,
+        plant: this.state.splant,
+        program: this.state.program,
         };
+      if ((data.title !== '') && (data.solution !== '')  && (data.plant !== '')  && (data.program !== '') && (data.devices !== '')) {
       this.props.editGroup(data);
       this.props.close();
+      } else this.setState({err:'Все поля должны быть заполнены'})
     }
     changeTitle(event) {
         let arr = this.state.title;
@@ -50,11 +62,32 @@ class EditGroupModal extends React.Component{
         
         this.setState({title: event.target.value });
     }
+
+    changeSolution(event) {
+      // let arr = this.state.solution;
+      // this.setState({title: arr });
+      this.setState({solution: event.target.value });
+    }
+
+    changePlant(event) {
+      // let arr = this.state.plant;
+      // this.setState({title: arr });
+      
+      this.setState({plant: event.target.value });
+    }
+    changeProgram(event) {
+      // let arr = this.state.solution;
+      // this.setState({title: arr });
+      
+      this.setState({program: event.target.value });
+    }
+
     render(){
         
         return (
             <div>
-                <div className='modal-body'>
+                <div class='modal-body'>
+                  <p>{this.state.err}</p>
                     <div className='row modal-input-row'>
                       <div className='col-12'>
                         <label  className='inp'>
@@ -64,6 +97,38 @@ class EditGroupModal extends React.Component{
                         </label>
                       </div>
                     </div>
+
+                    <div className='row modal-input-row'>
+                      <div className='col-12'>
+                        <label  className='inp'>
+                          <input type='text' placeholder="&nbsp;" onChange={this.changeSolution} value={this.state.solution} />
+                            <span className='label'>Solution</span>
+                            <span className='border'></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className='row modal-input-row'>
+                      <div className='col-12'>
+                        <label  className='inp'>
+                          <input type='text' placeholder="&nbsp;" onChange={this.changePlant} value={this.state.plant} />
+                            <span className='label'>Plant</span>
+                            <span className='border'></span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className='row modal-input-row'>
+                      <div className='col-12'>
+                        <label  className='inp'>
+                          <input type='text' placeholder="&nbsp;" onChange={this.changeProgram} value={this.state.program} />
+                            <span className='label'>Growing Program</span>
+                            <span className='border'></span>
+                        </label>
+                      </div>
+                    </div>
+
+
                     {
                       this.props.devices.map(item => { 
                         let arr = this.state.checkedItems;
@@ -86,7 +151,7 @@ class EditGroupModal extends React.Component{
                     }
                         
                 </div>
-                <div className='modal-footer'>
+                <div class='modal-footer'>
                     <button type='button' className='btn btn-primary' onClick={this.save}>Save</button>
                     <button type='button' className='btn btn-secondary' onClick={this.props.close}>Close</button>
                 </div>
@@ -104,7 +169,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     editGroup: data => {
         dispatch(sendData(data,'EDIT_GROUP'))
-        dispatch(editGroup(data));
+        // dispatch(editGroup(data));
     },
     close: () => {
       dispatch(closeModal())
