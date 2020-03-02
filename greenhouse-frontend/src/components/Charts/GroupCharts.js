@@ -48,11 +48,11 @@ class GroupCharts extends Component {
     return (
       <div className='growing-program'>
         
-          {/* <div className='row growing-program-name'>
+          <div className='row growing-program-name'>
                 <div className='chart-title'><h3>{group.title}</h3></div>
                 <i className={this.state.chevron} onClick={ e => this.handleClick() }></i>
                 <i className='fas fa-trash group-managment-element pt-1' onClick={this.deleteChart.bind(this)}></i>
-          </div> */}
+          </div>
           <div className='row' style={ style }>
             {items}
           </div>

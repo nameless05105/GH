@@ -21,17 +21,6 @@ class EditDeviceModal extends React.Component{
         this.changeMACaddr = this.changeMACaddr.bind(this);
         
     }
-    // handleChange(e) {
-    //     let id = Number(e.target.id);
-    //     const isChecked = e.target.checked;
-    //     let arr = this.state.checkedItems;
-    //     if (isChecked === true){
-        
-    //     arr.push(id);} else { 
-    //       arr = arr.filter(val => val !== id);
-    //     }
-    //     this.setState({checkedItems: arr});
-    //   }
     close(){
         this.props.dispatch(closeModal());
     }
@@ -53,10 +42,7 @@ class EditDeviceModal extends React.Component{
     }
     changeMACaddr(event) {
       this.setState({MACaddr: event.target.value });
-  }
-    // changeGroup(event) {
-    //     this.setState({group: event.target.value });
-    // }
+    }
     render(){
         
         return (

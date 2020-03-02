@@ -13,7 +13,7 @@ import Navbar from '../components/Navbar/Navbar';
 import Profiles from '../components/Profiles/Profiles';
 import GrowingPrograms from '../components/GrowingPrograms/GrowingPrograms';
 import Charts from '../components/Charts/Charts';
-import EditDeletePage from '../components/EditDeletePage/EditDeletePage';
+import EditDeletePage from '../components/Management/EditDeletePage';
 import  groupReducer  from '../reducers/groupReducer';
 import  deviceReducer  from '../reducers/deviceReducer';
 import  growingProgramReducer  from '../reducers/growingProgramReducer';

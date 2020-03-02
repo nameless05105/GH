@@ -6,17 +6,17 @@ import sys
 from pymongo import MongoClient
 
 client = MongoClient()
-client = MongoClient('mongopi', 27017, username='[user]', password='[password]')
-# client = MongoClient('localhost', 27017)
+# client = MongoClient('mongopi', 27017, username='[user]', password='[password]')
+client = MongoClient('localhost', 27017)
 db = client.data
 
 
 credentials = pika.PlainCredentials('guest', 'guest')
-connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq-mqtt',
-                                                               5672,
-                                                               '/',
-                                                               credentials))
-# connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+# connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq-mqtt',
+#                                                                5672,
+#                                                                '/',
+#                                                                credentials))
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 
 
@@ -38,7 +38,7 @@ def on_request(ch, method, props, body):
                                                                 props.correlation_id),
                             body=message)
 
-        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,'typeDevice':1,  '_id': 0}):
+        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,  '_id': 0}):
             device['key'] = 'device'
             message = json.dumps(device)
             # print(" [.] Sent" % message)
@@ -77,14 +77,7 @@ def on_request(ch, method, props, body):
         collection = client.data.devices
         del dict['action']
         collection.insert_one(dict)
-        collection = client.data.groups
-        collection.update_one({
-            'id': dict['groupId']
-            },{
-            '$push': {
-                'devices': dict['id']
-                }
-            }, upsert=True)
+       
         for group in client.data.groups.find({}, {'id':1, 'title':1, 'devices':1, 'solution':1, 'plant':1, 'program':1, '_id': 0}):
             group['key'] = 'group'
             message = json.dumps(group)
@@ -95,7 +88,7 @@ def on_request(ch, method, props, body):
                                                                 props.correlation_id),
                             body=message)
 
-        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,'typeDevice':1,  '_id': 0}):
+        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,  '_id': 0}):
             device['key'] = 'device'
             message = json.dumps(device)
             # print(" [.] Sent" % message)
@@ -121,7 +114,7 @@ def on_request(ch, method, props, body):
                                                                 props.correlation_id),
                             body=message)
 
-        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,'typeDevice':1,  '_id': 0}):
+        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1, '_id': 0}):
             device['key'] = 'device'
             message = json.dumps(device)
             # print(" [.] Sent" % message)
@@ -153,7 +146,7 @@ def on_request(ch, method, props, body):
                                                                 props.correlation_id),
                             body=message)
 
-        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,'typeDevice':1,  '_id': 0}):
+        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1, '_id': 0}):
             device['key'] = 'device'
             message = json.dumps(device)
             # print(" [.] Sent" % message)
@@ -212,7 +205,7 @@ def on_request(ch, method, props, body):
                                                                 props.correlation_id),
                             body=message)
 
-        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,'typeDevice':1,  '_id': 0}):
+        for device in client.data.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,  '_id': 0}):
             device['key'] = 'device'
             message = json.dumps(device)
             # print(" [.] Sent" % message)

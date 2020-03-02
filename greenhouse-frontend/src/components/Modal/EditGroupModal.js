@@ -48,7 +48,7 @@ class EditGroupModal extends React.Component{
         title: this.state.title,
         devices: this.state.checkedItems,
         solution: this.state.solution,
-        plant: this.state.splant,
+        plant: this.state.plant,
         program: this.state.program,
         };
       if ((data.title !== '') && (data.solution !== '')  && (data.plant !== '')  && (data.program !== '') && (data.devices !== '')) {

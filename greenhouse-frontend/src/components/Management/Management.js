@@ -9,7 +9,7 @@ import { openModal } from '../../actions/modal';
 import '../../style/Groups.css'
 
 /** Displays all groups and device (connect component)*/ 
-class RenderPage extends Component {
+class Management extends Component {
   /** Triggers the opening of a modal window with a form for creating a group*/
   createGroup(){
     this.props.createGroup();
@@ -22,16 +22,11 @@ class RenderPage extends Component {
   render() {
     return (
       <div>
-          {/* <div className="nav-body">
-            <p  onClick={this.createGroup.bind(this)} >Add group</p>
-            <p   onClick={this.createDevice.bind(this)} >Add device</p>
-          </div> */}
-        
-        <div className='row second-menu justify-content-md-center'>
-          <div className='col-md-auto menu-link'>
+        <div className='row second-menu justify-content-md-center justify-content-sm-center justify-content-xs-center'>
+          <div className='col-md-auto col-xs-auto col-sm-auto menu-link'>
             <p  onClick={this.createGroup.bind(this)} >Add group</p>
           </div>
-          <div className='col-md-auto menu-link'>
+          <div className='col-md-auto col-xs-auto col-sm-auto menu-link'>
             <p   onClick={this.createDevice.bind(this)} >Add device</p>
           </div>
         </div>
@@ -75,4 +70,4 @@ const mapDispatchToProps = dispatch => ({
   
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(RenderPage);
+export default connect(mapStateToProps,mapDispatchToProps)(Management);

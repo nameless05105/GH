@@ -5,18 +5,17 @@ import {sendData} from '../../index';
 
 import Group from './Group';
 import GroupList from './GroupList';
-import RenderGroups from './RenderGroups';
  
 /** Displays all groups (connect component)*/
 
 class Groups extends Component {
-  // constructor(props){
-  //   super(props)
-  //   this.state = {
-  //     group:this.props.groups[0], //для одиночного вывода
-  //     items: this.props.groups
-  //   }
-  // }
+  constructor(props){
+    super(props)
+    this.state = {
+      group:this.props.groups[0], //для одиночного вывода
+      items: this.props.groups
+    }
+  }
 
   handleInputChange = () => {
     const new_groups = this.props.groups.filter(group => group.title.toLowerCase().includes(this.search.value.toLowerCase()));
@@ -25,57 +24,47 @@ class Groups extends Component {
     })
   }
 
-  componentDidMount(){
-    sendData({},'Auth');
-    this.setState({
-      items: this.props.groups
-    })
-  }
   
 
 
   render() {
     
-    // let group =null;
-    // if(this.state.group){
-    //   group = <Group  group={this.state.group} />
-    // } else {
-    //   group = <p></p>;
-    // }
-    const isLoading  = this.props.groups;
-    console.log(isLoading )
-    if (isLoading === null) return <p>loading</p>
-    else return <RenderGroups />
-    // return (isLoading === Null) ? <p>loading</p> : <RenderGroups />;
-    // return (
-    //   <div >
-    //     <div className="row">
-    //       <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+    let group =null;
+    if(this.state.group){
+      group = <Group  group={this.state.group} />
+    } else {
+      group = <p></p>;
+    }
+    
+    return (
+      <div >
+        <div className="row">
+          <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
 
-    //         <label  className='inp'>
-    //           <input type='text' ref={input => this.search = input} onChange={this.handleInputChange} placeholder="Search"/>
-    //             <span className='label'></span>
-    //             <span className='border'></span>
-    //         </label>
-    //           <div className="wrapper-search-result-block"> 
+            <label  className='inp'>
+              <input type='text' ref={input => this.search = input} onChange={this.handleInputChange} placeholder="Search"/>
+                <span className='label'></span>
+                <span className='border'></span>
+            </label>
+              <div className="wrapper-search-result-block"> 
                 
-    //             {this.props.groups.map(group => (
+                {this.props.groups.map(group => (
 
-    //                 <div  key={group.id} className="wrapperGroup-item" onClick={() => this.setState({ group:group})}>
-    //                   <GroupList group={group} onClick={this.handleChange} />
-    //                 </div>
+                    <div  key={group.id} className="wrapperGroup-item" onClick={() => this.setState({ group:group})}>
+                      <GroupList group={group} onClick={this.handleChange} />
+                    </div>
                   
-    //             ))}
+                ))}
                 
-    //           </div>
-    //       </div>
-    //       <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12" >
-    //         {group}
-    //       </div>
-    //     </div>
+              </div>
+          </div>
+          <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12" >
+            {group}
+          </div>
+        </div>
         
-    //   </div>
-    // );
+      </div>
+    );
    }
 }
  

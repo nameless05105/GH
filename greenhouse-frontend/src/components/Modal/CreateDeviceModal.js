@@ -16,7 +16,6 @@ class CreateDeviceModal extends React.Component{
       }
       this.close = this.close.bind(this);
       this.save = this.save.bind(this);
-      this.changeTitle = this.changeTitle.bind(this);
       this.handleChange = this.handleChange.bind(this);
     }
 
@@ -31,13 +30,11 @@ class CreateDeviceModal extends React.Component{
     save(){
       const id = uuidv4();
       const name = this.getTitle.value;
-      const groupId = this.getGroup.value;
       const MACaddr = this.getMACaddr.value;
-      if ((name !== '') && (groupId !== '')  && (MACaddr !== '')) {
+      if ((name !== '')   && (MACaddr !== '')) {
         const data = {
           id,
           name,
-          groupId,
           MACaddr
         };
           console.log(data);
@@ -47,9 +44,6 @@ class CreateDeviceModal extends React.Component{
       } else this.setState({err:'Все поля должны быть заполнены'})
     }
     
-    changeTitle(title) {
-      this.setState({title})
-    }
     render(){
         return (
             <div>
@@ -75,27 +69,6 @@ class CreateDeviceModal extends React.Component{
                         </div>
                       </div>
 
-                      <div className='row modal-input-row'>
-                        {/* <div className='col-12 select' > */}
-                          <label  className='inp'>
-                            <div className='select' >
-                              <select className='select'  ref={input => (this.getGroup = input)} placeholder="&nbsp;">
-                                <option selected disabled>Add device to Group</option>
-                                {this.props.groups.map(item =>(
-                                    <option value={item.id}>{item.title}</option>
-                                    )
-                                )}
-                              </select>
-                            </div>
-                            {/* <input type='text' ref={input => (this.getGroup = input)} placeholder="&nbsp;"/> */}
-                              {/* <span className='label'>Add device to group</span>
-                              <span className='border'></span> */}
-                          </label>
-                        {/* </div> */}
-                      </div>
-                          
-                      
-                        
                 </div>
                 <div className='modal-footer'>
                     <button type='button' className='btn btn-success' onClick={this.save}>Save</button>
