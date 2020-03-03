@@ -16,3 +16,14 @@ start:
 
 stop:
 	docker-compose stop mongopi
+
+update:
+	docker-compose build frontend
+	docker-compose create frontend
+	docker-compose build dbmodule
+	docker-compose create dbmodule
+	docker-compose build backend
+	docker-compose create backend
+	docker-compose start frontend
+	docker-compose start backend
+	docker-compose start dbmodule
