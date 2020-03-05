@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { deleteProgram, pauseProgram, stopProgram} from '../../actions/growingProgram';
-import Modal from '../Modal/Modal';
 import { openModal } from '../../actions/modal';
+import { sendData } from '../../actions/socket';
 
 /** Displays growing program (connect component)*/ 
 
@@ -133,7 +133,9 @@ const mapDispatchToProps = dispatch => ({
         dispatch(stopProgram(data));
     },
     delete: data => {
-      dispatch(deleteProgram(data))
+      console.log('delete_prog')
+        dispatch(sendData({id:data},'DELETE_PROGRAM'))
+      // dispatch(deleteProgram(data))
     },
     edit: group => {
       dispatch(openModal({

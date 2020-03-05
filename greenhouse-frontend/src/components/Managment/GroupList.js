@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import React, { Component }  from 'react';
 // import {devices} from '../../state';
-// import {deleteGroup} from '../../actions/group';
 import {editStatus} from '../../actions/group';
 
 import { connect } from 'react-redux';

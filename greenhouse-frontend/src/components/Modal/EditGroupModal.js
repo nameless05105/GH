@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editGroup } from '../../actions/group';
 import { closeModal } from '../../actions/modal';
 
 import {sendData} from '../../actions/socket';

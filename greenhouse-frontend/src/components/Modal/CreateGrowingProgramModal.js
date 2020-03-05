@@ -157,18 +157,21 @@ class CreateGrowingProgramModal extends React.Component{
       const blocks = this.state.blocks;
 
       if ((programName !== '') && (days !== '')  && (group !== '')  && (status !== '') && (blocks !== '')) {
-        
-        const data = {
-          id,
-          programName,
-          group,
-          days,
-          status,
-          blocks
-        };
-    
-        this.props.createProgram(data);
-        this.close();
+        let num = blocks.map(block => block.blockDays)
+        const reducer = (accumulator, currentValue) => Number(accumulator) + Number(currentValue);
+        if (num.reduce(reducer) === days){
+          const data = {
+            id,
+            programName,
+            group,
+            days,
+            status,
+            blocks
+          };
+      
+          this.props.createProgram(data);
+          this.close();
+        } else this.setState({err:'Общее количество дней и сумма количества дней в блоках должны совпадать'})
       } else this.setState({err:'Все поля должны быть заполнены'})
     }
     

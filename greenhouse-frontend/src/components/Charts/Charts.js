@@ -5,7 +5,6 @@ import 'chartjs-plugin-annotation';
 import GroupCharts from './GroupCharts'
 import Modal from '../Modal/Modal';
 import { openModal } from '../../actions/modal';
-import {sendData} from '../../index';
 
 import '../../style/Charts.css'
 

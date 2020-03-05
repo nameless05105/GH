@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import GroupList from './GroupList';
 import {sendData} from '../../index';
 import Management from './Management'
-
-import Modal from '../Modal/Modal';
 import { openModal } from '../../actions/modal';
 
 import '../../style/Groups.css'
@@ -30,30 +27,6 @@ class MainManagementComponent extends Component {
     console.log(isLoading )
     if (isLoading === null && isLoadingd === null) return <p>loading</p>
     else return <Management />
-    // return (
-    //   <div>
-    //       {/* <div className="nav-body">
-    //         <p  onClick={this.createGroup.bind(this)} >Add group</p>
-    //         <p   onClick={this.createDevice.bind(this)} >Add device</p>
-    //       </div> */}
-        
-    //     <div className='row second-menu justify-content-md-center'>
-    //       <div className='col-md-auto menu-link'>
-    //         <p  onClick={this.createGroup.bind(this)} >Add group</p>
-    //       </div>
-    //       <div className='col-md-auto menu-link'>
-    //         <p   onClick={this.createDevice.bind(this)} >Add device</p>
-    //       </div>
-    //     </div>
-    //     <br/>
-    //       <Modal isOpen = {this.props.modal.isOpen}  titleModal={this.props.modal.titleModal} typeModal={this.props.modal.typeModal}  content={this.props.modal.content} />
-         
-    //       {/* {this.props.groups.map(group => (
-    //         <GroupList key={group.id} group={group} />
-    //       ))} */}
-
-    //   </div>
-    // );
    }
 }
  

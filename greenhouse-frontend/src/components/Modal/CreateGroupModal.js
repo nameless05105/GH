@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {closeModal} from '../../actions/modal';
-import {createGroup} from '../../actions/group';
 import {sendData} from '../../actions/socket';
 import uuidv4  from 'uuid/v4';
 

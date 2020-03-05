@@ -1,8 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { closeModal } from '../../actions/modal';
-import {createDevice} from '../../actions/device';
-import { addNewDeviceToGroup } from '../../actions/group';
 import {sendData} from '../../actions/socket';
 import uuidv4  from 'uuid/v4';
 

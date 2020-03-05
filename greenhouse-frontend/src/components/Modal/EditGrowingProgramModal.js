@@ -156,8 +156,12 @@ class EditGrowingProgramModal extends React.Component{
             blocks: this.state.blocks,
       };
       if ((data.programName !== '') && (data.days !== '')  && (data.group !== '')  && (data.status !== '') && (data.blocks !== '')) {
-        this.props.editProgram(data);
-        this.props.close();
+        let num = data.blocks.map(block => block.blockDays)
+        const reducer = (accumulator, currentValue) => Number(accumulator) + Number(currentValue);
+        if (num.reduce(reducer) === data.days){
+          this.props.editProgram(data);
+          this.props.close();
+        } else this.setState({err:'Общее количество дней и сумма количества дней в блоках должны совпадать'})
       } else this.setState({err:'Все поля должны быть заполнены'})
     }
     changeProgramName(event) {

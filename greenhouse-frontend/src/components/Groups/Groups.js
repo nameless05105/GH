@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import '../../style/Groups.css'
-import {sendData} from '../../index';
+import '../../style/Groups.css';
 
 import Group from './Group';
 import GroupList from './GroupList';
