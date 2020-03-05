@@ -6,7 +6,7 @@ var devices = new Array;
 var programs = new Array;
 var sensors = new Array;
 var charts = new Array;
-amqp.connect('amqp://localhost', function(error0, connection) {
+amqp.connect('amqp://rabbitmq-mqtt', function(error0, connection) {
   if (error0) {
     throw error0;
   }
