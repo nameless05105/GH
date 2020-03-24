@@ -134,11 +134,17 @@ class DeviceChart extends Component {
     const charts = filterSensors.map(sensor =>{
       let data = new Array;
       let labels = new Array;
-      const result = sensor.values.map(value => {
-        data.push(Number(value.value));
-        labels.push(Number(value.date));
-        }
-      );
+      if (sensor.values !== undefined) {
+        const result = sensor.values.map(value => {
+          data.push(Number(value.value));
+          labels.push(Number(value.date));
+          }
+        );
+      }
+      else{
+        console.log('null')
+      }
+      
       
       return(
         

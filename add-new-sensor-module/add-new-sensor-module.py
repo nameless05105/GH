@@ -33,7 +33,7 @@ def on_request(ch, method, props, body):
             print (key)
             collection.insert_one({ 'MACaddr': dict['MACaddr'], 'name': dict['name'], 'type': key })
         collection = client.data.devices
-        collection.insert_one({ 'id': uuid.uuid1(),'MACaddr': dict['MACaddr'], 'name': dict['name'] })
+        collection.insert_one({ 'id': str(uuid.uuid4()),'MACaddr': dict['MACaddr'], 'name': dict['name'] })
     connection1 = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq-mqtt',
                                                                5672,
                                                                '/',
@@ -43,7 +43,6 @@ def on_request(ch, method, props, body):
     for group in client.data.groups.find({}, {'id':1, 'title':1, 'devices':1, '_id': 0}):
         group['key'] = 'group'
         message = json.dumps(group)
-        # print(" [.] Sent" % message)
         channel1.basic_publish(
             exchange='',
             routing_key='data-for-server',
