@@ -8,7 +8,7 @@ import uuid
 from pymongo import MongoClient
 
 client = MongoClient()
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongopi', 27017, username='[user]', password='[password]')
 
 db = client.data
 

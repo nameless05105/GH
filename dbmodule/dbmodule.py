@@ -27,17 +27,17 @@ DELETE_CHART = 'DELETE_CHART'
 
 CREATE_SENSOR = 'CREATE_SENSOR'
 
-# client = MongoClient('mongopi', 27017, username='[user]', password='[password]')
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongopi', 27017, username='[user]', password='[password]')
+# client = MongoClient('localhost', 27017)
 db = client.data
 
 
 credentials = pika.PlainCredentials('guest', 'guest')
-# connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq-mqtt',
-#                                                                5672,
-#                                                                '/',
-#                                                                credentials))
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq-mqtt',
+                                                               5672,
+                                                               '/',
+                                                               credentials))
+# connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 channel.queue_declare(queue='rpc_queue')
 
