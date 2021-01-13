@@ -32,7 +32,7 @@ export const editProgram = (program)  => {
 export const startProgram = (growingProgram)  => {
     return {
         type: START_PROGRAM,
-        group: growingProgram
+        id: growingProgram.id
     };
 };
 

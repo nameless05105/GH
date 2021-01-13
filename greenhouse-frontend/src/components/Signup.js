@@ -17,7 +17,8 @@ const Signup = ({ errors, signup }) => {
     const user = {
       username: e.target[0].value,
       email: e.target[1].value,
-      password: e.target[2].value
+      password: e.target[2].value,
+      role: e.target[3].value
     };
     
     signup(user);
@@ -63,6 +64,19 @@ const Signup = ({ errors, signup }) => {
                     type="password"
                     name="password"
                     placeholder="Enter password"
+                    required
+                  />
+            </label>
+          </div>
+        </div>
+
+        <div className='row modal-input-row'>
+          <div className='col-12'>
+            <label  className='inp'>
+                  <input
+                    type="role"
+                    name="role"
+                    placeholder="Enter role"
                     required
                   />
             </label>

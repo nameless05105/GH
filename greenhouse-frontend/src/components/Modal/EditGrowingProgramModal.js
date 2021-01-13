@@ -148,20 +148,24 @@ class EditGrowingProgramModal extends React.Component{
     }
     /** Triggers an action to create new growing program*/
     save(){
+      const id = this.state.id;
+      const programName = this.state.programName;
+      const group = this.state.group;
+      const blocks = this.state.blocks;
+      let num = blocks.map(block => block.blockDays)
+      const reducer = (accumulator, currentValue) => Number(accumulator) + Number(currentValue);
+      const days = num.reduce(reducer);
       const data = {
-            id: this.state.id,
-            programName: this.state.programName,
-            days: this.state.days,
-            group: this.state.group,
-            blocks: this.state.blocks,
+            id,
+            programName,
+            days,
+            group,
+            blocks,
       };
       if ((data.programName !== '') && (data.days !== '')  && (data.group !== '')  && (data.status !== '') && (data.blocks !== '')) {
-        let num = data.blocks.map(block => block.blockDays)
-        const reducer = (accumulator, currentValue) => Number(accumulator) + Number(currentValue);
-        if (num.reduce(reducer) === data.days){
-          this.props.editProgram(data);
-          this.props.close();
-        } else this.setState({err:'Общее количество дней и сумма количества дней в блоках должны совпадать'})
+       
+        this.props.editProgram(data);
+        this.props.close();
       } else this.setState({err:'Все поля должны быть заполнены'})
     }
     changeProgramName(event) {
@@ -190,13 +194,13 @@ class EditGrowingProgramModal extends React.Component{
                   </label>
                 </div>
 
-                <div className='col-4'>
+                {/* <div className='col-4'>
                   <label  className='inp'>
                     <input type='text' onChange={this.changeDays} value={this.state.days} placeholder="&nbsp;"/>
                       <span className='label'>Days</span>
                       <span className='border'></span>
                   </label>
-                </div>
+                </div> */}
 
               </div> 
               <div className='row modal-input-row'>

@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {closeModal} from '../../actions/modal';
 import { startProgram } from '../../actions/growingProgram';
+import {sendData} from '../../actions/socket';
 
 
 class StartGroupModal extends React.Component{
@@ -16,13 +17,10 @@ class StartGroupModal extends React.Component{
         
     }
     start(){
-        // this.setState({status: 'start' });
-        // const data = {
-        //     id: this.state.id,
-        //     status: this.state.status
-        //     };
-        // this.props.startProgram(data);
-        const growingProgram = this.getGrowingProgram.value;
+        const growingProgram = {
+            id: this.getGrowingProgram.value,
+            date: new Date()
+          };
         this.props.startProgram(growingProgram);
         this.close();
       }
@@ -45,7 +43,7 @@ class StartGroupModal extends React.Component{
                             <select ref={input => (this.getGrowingProgram = input)} placeholder="&nbsp;" onChange={this.handleChange}>
                                 <option selected disabled>Group</option>
                                 {this.props.growingPrograms.map(growingProgram => (
-                                <option value={growingProgram.group}>{growingProgram.group}</option>))
+                                <option value={growingProgram.id}>{growingProgram.programName}</option>))
                                 }
                             </select>
                             </div>
@@ -72,6 +70,7 @@ const mapStateToProps = state => {
   };
 const mapDispatchToProps = dispatch => ({
     startProgram: growingProgram => {
+        dispatch(sendData(growingProgram,'START_PROGRAM'))
         dispatch(startProgram(growingProgram))
     },
     close: () => {

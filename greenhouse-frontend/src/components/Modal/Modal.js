@@ -9,11 +9,24 @@ import CreateDeviceModal from './CreateDeviceModal';
 import CreateChartModal from './CreateChartModal';
 import CreateGrowingProgramModal from '../Modal/CreateGrowingProgramModal';
 import StartGrowingProgramModal from '../Modal/StartGrowingProgramModal';
-import EditPhModal from '../Modal/EditPhModal';
-import EditPpmModal from '../Modal/EditPpmModal';
+
+import SelectGreenhouse from '../Modal/SelectGreenhouse';
+import CreateGreenhouse from '../Modal/CreateGreenhouse';
+
+import EditConfiguration from './EditConfiguration';
+import CreateConfiguration from './CreateConfiguration';
+
+
+import EditTechnology from './EditTechnology';
+import CreateTechnology from './CreateTechnology';
+
+import EditContainer from './EditContainer';
+import CreateContainer from './CreateContainer';
 import { } from '../../actions/group';
 
-import '../../style/Modal.css'
+import EditUser from './EditUser';
+
+// import '../../style/Modal.css'
 
 /** Displays modal window (connect component)*/ 
 class Modal extends React.Component {
@@ -41,13 +54,22 @@ class Modal extends React.Component {
         if (typeModal==='createGrowingProgram') {this.modalBody = <CreateGrowingProgramModal content = {content}/>}
         if (typeModal==='startGrowingProgram') {this.modalBody = <StartGrowingProgramModal content = {content}/>}
         if (typeModal==='createChart') {this.modalBody = <CreateChartModal content = {content}/>}
-        if (typeModal==='editPh') {this.modalBody = <EditPhModal content = {content}/>}
-        if (typeModal==='editPpm') {this.modalBody = <EditPpmModal content = {content}/>}
+
+        if (typeModal==='createConfiguration') {this.modalBody = <CreateConfiguration content = {content}/>}
+        if (typeModal==='editConfiguration') {this.modalBody = <EditConfiguration content = {content}/>}
+        if (typeModal==='createContainer') {this.modalBody = <CreateContainer content = {content}/>}
+        if (typeModal==='editContainer') {this.modalBody = <EditContainer content = {content}/>}
+        if (typeModal==='selectGreenhouse') {this.modalBody = <SelectGreenhouse content = {content}/>}
+        if (typeModal==='createGreenhouse') {this.modalBody = <CreateGreenhouse content = {content}/>}
+        if (typeModal==='editTechnology') {this.modalBody = <EditTechnology content = {content}/>}
+        if (typeModal==='createTechnology') {this.modalBody = <CreateTechnology content = {content}/>}
+
+        if (typeModal==='editUser') {this.modalBody = <EditUser content = {content}/>}
         if (!isOpen) {return null;}
 
         return (
             <div className='modal in' >
-                <div className='modal-dialog' >
+                <div className='modal-dialog modal-lg'>
                     <div className='modal-content'>
                     <div className='modal-header'>
                         <h5 className='modal-title'>{titleModal}</h5>
@@ -58,7 +80,7 @@ class Modal extends React.Component {
                         {this.modalBody}
                     </div>
                 </div>
-                </div>
+            </div>
         );
     }
 }

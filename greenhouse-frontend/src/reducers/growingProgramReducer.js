@@ -1,5 +1,6 @@
 import { CREATE_PROGRAM, EDIT_PROGRAM, DELETE_PROGRAM, START_PROGRAM, STOP_PROGRAM, PAUSE_PROGRAM, UPDATE_PROGRAM_DATA } from '../actions/growingProgram';
 const growingPrograms = [];
+
 /**
  * Growing program reducer
  * 
@@ -26,7 +27,7 @@ const growingProgramReducer = (state = growingPrograms, action) => {
       return state.filter(program => program.id !== action.id)
       case START_PROGRAM: 
       return state.map(growingProgram => {
-                  if (growingProgram.group === action.group) {
+                  if (growingProgram.id === action.id) {
                       growingProgram.status = 'start';
                   }
                   return growingProgram;

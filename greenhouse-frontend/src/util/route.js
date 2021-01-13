@@ -11,7 +11,7 @@ const Auth = ({ loggedIn, path, component: Component }) => (
     path={path}
     render={props => (
       loggedIn ?
-      <Redirect to='/groups' /> :
+      <Redirect to='/app/dashboard' /> :
       <Component {...props} />
     )}
   />

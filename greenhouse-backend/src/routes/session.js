@@ -19,7 +19,7 @@ sessionRouter.post("", async (req, res) => {
       req.session.user = sessionUser
       res.send(sessionUser);
     } else {
-      throw new Error('Invalid login credentials');
+      throw new Error('Неверные логин или пароль');
     }
   } catch (err) {
     res.status(401).send(parseError(err));
@@ -36,7 +36,7 @@ sessionRouter.delete("", ({ session }, res) => {
         res.send(user);
       });
     } else {
-      throw new Error('Something went wrong');
+      throw new Error('Error');
     }
   } catch (err) {
     res.status(422).send(parseError(err));

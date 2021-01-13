@@ -1,12 +1,17 @@
 import * as apiUtil from "../util/session";
-
-// import { sendData } from '../index';
-import {sendData} from './socket';
-
 import { receiveErrors } from "./error";
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
+
+export const UPDATE_GREENHOUSE = 'UPDATE_GREENHOUSE';
+
+export const updateGreenhouse = (state)  => {
+  return {
+      type: UPDATE_GREENHOUSE,
+      state
+  };
+};
 
 const receiveCurrentUser = user => ({
   type: RECEIVE_CURRENT_USER,
@@ -20,10 +25,12 @@ const logoutCurrentUser = () => ({
 export const login = user => async dispatch => {
   const response = await apiUtil.login(user);
   const data = await response.json();
-  
+
   if (response.ok) {
-    // console.log('вот в этом месте');
-    // dispatch(sendData(data,'Auth'));
+    if (data.greenhouse !== '') {
+      dispatch(updateGreenhouse({id: data.greenhouse}));
+      window.sessionStorage.setItem('greenhouse', data.greenhouse);
+    }
     return dispatch(receiveCurrentUser(data));
   }
   return dispatch(receiveErrors(data));

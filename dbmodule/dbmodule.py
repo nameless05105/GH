@@ -6,6 +6,9 @@ import uuid
 from pymongo import MongoClient
 
 AUTH = 'Auth'
+GET_DATA_FOR_GREENHOUSE = 'Get_Data_for_Greenhouse'
+GET_GREENHOUSES = 'Get_Greenhouses'
+GET_USERS = 'Get_Users'
 
 CREATE_GROUP = 'CREATE_GROUP'
 EDIT_GROUP = 'EDIT_GROUP'
@@ -27,210 +30,141 @@ DELETE_CHART = 'DELETE_CHART'
 
 CREATE_SENSOR = 'CREATE_SENSOR'
 
-client = MongoClient('mongopi', 27017, username='[user]', password='[password]')
-# client = MongoClient('localhost', 27017)
+CREATE_CONFIGURATION = 'CREATE_CONFIGURATION'
+EDIT_CONFIGURATION = 'EDIT_CONFIGURATION'
+DELETE_CONFIGURATION = 'DELETE_CONFIGURATION'
+
+CREATE_CONTAINER = 'CREATE_CONTAINER'
+EDIT_CONTAINER = 'EDIT_CONTAINER'
+DELETE_CONTAINER = 'DELETE_CONTAINER'
+
+
+# client = MongoClient('mongopi', 27017, username='[user]', password='[password]')
+client = MongoClient('localhost', 27017)
 db = client.data
 
 
-credentials = pika.PlainCredentials('guest', 'guest')
-connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq-mqtt',
-                                                               5672,
-                                                               '/',
-                                                               credentials))
-# connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+# credentials = pika.PlainCredentials('guest', 'guest')
+# connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq-mqtt',
+#                                                                5672,
+#                                                                '/',
+#                                                                credentials))
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 channel.queue_declare(queue='rpc_queue')
 
-def send_response(groups, devices, programs, sensors, charts): #(отправка серверу)
+def send_response(configurations, containers, greenhouses, greenhouse, technology, users, charts, modules ): #(отправка серверу)
     data = []
-    if (groups):
-        for group in db.groups.find({}, {'id':1, 'title':1, 'devices':1, 'solution':1, 'plant':1, 'program':1, '_id': 0}):
-            group['key'] = 'group'
-            data.append(json.dumps(group))
-    if (devices):
-        for device in db.devices.find({}, {'id':1, 'name':1, 'MACaddr':1,  '_id': 0}):
-            device['key'] = 'device'
-            data.append(json.dumps(device))
-    if (programs):
-        for program in db.growingPrograms.find({}, {'id':1, 'programName':1, 'group':1, 'days':1, 'status':1, 'blocks':1, '_id': 0}):
-            program['key'] = 'program'
-            data.append(json.dumps(program))
-    if (sensors):
-        for sensor in db.sensors.find({}, {'name':1, 'type':1, 'value':1, 'values':1, 'MACaddr':1, 'id':1, '_id': 0}):
-            sensor['key'] = 'sensor'
-            data.append(json.dumps(sensor))
     if (charts):
         for chart in db.charts.find({}, {'id':1, 'type':1, 'value':1, 'MACaddr':1, 'name':1, 'groupId':1,'_id': 0}):
             chart['key'] = 'chart'
             data.append(json.dumps(chart))
+    if (modules):
+        for module in db.modules.find({}, {'components':1, '_id': 0}):
+            module['key'] = 'module'
+            data.append(json.dumps(module))
+    if (configurations):
+        for configuration in db.configurations.find({"greenhouse": greenhouse}, {'id':1, 'container':1, 'containerId':1,  'modules':1, '_id': 0}):
+            configuration['key'] = 'configuration'
+            data.append(json.dumps(configuration))
+            print(data)
+    if (containers):
+        for container in db.containers.find({"greenhouse": greenhouse}, {'id':1, 'name':1, 'channel':1, 'address':1, 'sensors':1, 'devices':1, 'greenhouse':1, '_id': 0}):
+            container['key'] = 'container'
+            data.append(json.dumps(container))
+            print(data)
+    if (technology):
+        for technology in db.technology.find({"greenhouse": greenhouse}, {'id':1, 'container':1, 'name':1,  'blocks':1, '_id': 0}):
+            technology['key'] = 'technology'
+            data.append(json.dumps(technology))
+            print(data)
+    if (greenhouses):
+        for greenhouse in db.greenhouses.find({}, {'id':1, 'name':1, 'technologist':1, '_id': 0}):
+            greenhouse['key'] = 'greenhouse'
+            data.append(json.dumps(greenhouse))
+    if (users):
+        for user in db.users.find({}, {'username':1, 'email':1, 'greenhouse':1,  '_id': 0}):
+            user['key'] = 'user'
+            data.append(json.dumps(user))
     data.append(json.dumps({'key':'end'}))
     return data
 
-def create_group(data):
-    collection = db.groups
-    collection.insert_one(data)
-    data = send_response(groups = True,  devices = True, programs = False, sensors = False, charts = False)
-    return data 
+# def create_configuration(data):
+#     collection = db.configurations
+#     collection.insert_one(data)
+#     data = send_response(configurations = True, containers = True,  greenhouses = True, greenhouses = False)
+#     return data
 
-def edit_group(data):
-    collection = db.groups
-    collection.update_one({
-            'id': data['id']
-            },{
-            '$set': {
-                'title': data['title'],
-                'devices': data['devices'],
-                'solution': data['solution'],
-                'plant': data['plant'],
-                'program': data['program']
-            }
-            }, upsert=False)
-    data = send_response(groups = True,  devices = True, programs = False, sensors = False, charts = False)
-    return data
+# def create_container(data):
+#     collection = db.containers
+#     print('creatr contr')
+#     collection.insert_one(data)
+#     data = send_response(configurations = True, containers = True,  greenhouses = True greenhouses = False)
+#     return data
 
-def delete_group(data):
-    collection = db.groups
-    collection.delete_one({"id":data['id']})
-    data = send_response(groups = True,  devices = True, programs = False, sensors = False, charts = False)
-    return data
+# def edit_container(data):
+#     collection = db.containers
+#     collection.update_one({
+#             'id': data['id']
+#             },{
+#             '$set': {
+#                 'name': data['name'],
+#                 'address': data['address'],
+#                 'channel': data['channel'],
+#                 'sensors': data['sensors'],
+#                 'devices': data['devices'],
+#             }
+#             }, upsert=False)
+#     data = send_response(configurations = True, containers = True,  greenhouses = True)
+#     return data
 
-def create_device(data):
-    collection = db.device
-    collection.insert_one(data)
-    data = send_response(groups = True,  devices = True, programs = False, sensors = False, charts = False)
-    return data
+# def edit_configuration(data):
+#     collection = db.configurations
+#     collection.update_one({
+#             'id': data['id']
+#             },{
+#             '$set': {
+#                 'containerId': data['containerId'],
+#                 'container': data['container'],
+#                 'modules': data['modules']
+#             }
+#             }, upsert=False)
+#     data = send_response(configurations = True, containers = True,  greenhouses = True)
+#     return data
 
-def edit_device(data):
-    collection = db.device
-    collection.update_one({
-            'id': data['id']
-            },{
-            '$set': {
-                'name': data['name'],
-                'MACaddr': data['MACaddr']
-            }
-            }, upsert=False)
-    data = send_response(groups = True,  devices = True, programs = False, sensors = False, charts = False)
-    return data
+# def delete_configuration(data):
+#     collection = db.configurations
+#     collection.delete_one({"id":data['id']})
+#     data = send_response(configurations = True, containers = True,  greenhouses = True)
+#     return data
 
-def delete_device(data):
-    collection = db.device
-    collection.delete_one({"id":data['id']})
-    data = send_response(groups = True,  devices = True, programs = False, sensors = False, charts = False)
-    return data
-
-def create_program(data):
-    collection = db.growingPrograms
-    collection.insert_one(data)
-    data = send_response(groups = True,  devices = False, programs = True, sensors = False, charts = False)
-    return data
-
-def edit_program(data):
-    collection = db.growingPrograms
-    collection.update_one({
-            'id': data['id']
-            },{
-            '$set': {
-                'programName': data['programName'],
-                'group': data['group'],
-                'days': data['days'],
-                'blocks': data['blocks']
-            }
-            }, upsert=False)
-    data = send_response(groups = True,  devices = False, programs = True, sensors = False, charts = False)
-    return data
-
-def start_program(data):
-    collection = db.growingPrograms
-    collection.update_one({
-            'id': data['id']
-            },{
-            '$set': {
-                'status': 'start'
-            }
-            }, upsert=False)
-    data = send_response(groups = True,  devices = False, programs = True, sensors = False, charts = False)
-    return data
-
-def pause_program(data):
-    collection = db.growingPrograms
-    collection.update_one({
-            'id': data['id']
-            },{
-            '$set': {
-                'status': 'pause'
-            }
-            }, upsert=False)
-    data = send_response(groups = True,  devices = False, programs = True, sensors = False, charts = False)
-    return data
-
-def stop_program(data):
-    collection = db.growingPrograms
-    collection.update_one({
-            'id': data['id']
-            },{
-            '$set': {
-                'status': 'stop'
-            }
-            }, upsert=False)
-    data = send_response(groups = True,  devices = False, programs = True, sensors = False, charts = False)
-    return data
-
-def delete_program(data):
-    collection = db.growingPrograms
-    collection.delete_one({"id":data['id']})
-    data = send_response(groups = True,  devices = False, programs = True, sensors = False, charts = False)
-    return data
-
-def create_chart(data):
-    collection = db.charts
-    collection.insert_one(data)
-    data = send_response(groups = True,  devices = True, programs = False, sensors = True, charts = True)
-    return data
-
-def delete_chart(data):
-    collection = db.charts
-    collection.delete_one({"id":data['id']})
-    data = send_response(groups = True,  devices = True, programs = False, sensors = True, charts = True)
-    return data
-
-def create_sensor(data):
-    collection = db.sensors
-    result = collection.find_one({'MACaddr':data['MACaddr']})
-    for key in data['sensors']:
-        print (key)
-        collection.insert_one({ 'MACaddr': data['MACaddr'], 'name': data['name'], 'type': key })
-    collection = client.data.devices
-    collection.insert_one({ 'id': uuid.uuid1(),'MACaddr': data['MACaddr'], 'name': data['name'] })
+# def delete_container(data):
+#     collection = db.containers
+#     collection.delete_one({"id":data['id']})
+#     data = send_response(configurations = True, containers = True,  greenhouses = True)
+#     return data
 
 def on_request(ch, method, props, body):
     dict = json.loads(body)
     print(dict)
-    if (dict['action'] == AUTH):
-        data = send_response(groups = True,  devices = True, programs = True, sensors = True, charts = True)
-    elif (dict['action'] == CREATE_GROUP):
-        data = create_group(dict)
-    elif (dict['action'] == EDIT_GROUP):
-        data = edit_group(dict)
-    elif (dict['action'] == DELETE_GROUP):
-        data = delete_group(dict)
-    elif (dict['action'] == CREATE_DEVICE):
-        data = create_device(dict)
-    elif (dict['action'] == EDIT_DEVICE):
-        data = edit_device(dict)
-    elif (dict['action'] == DELETE_DEVICE):
-        data = delete_device(dict)
-    elif (dict['action'] == CREATE_PROGRAM):
-        data = create_program(dict)
-    elif (dict['action'] == EDIT_PROGRAM):
-        data = edit_program(dict)
-    elif (dict['action'] == DELETE_PROGRAM):
-        data = delete_program(dict)
-    elif (dict['action'] == CREATE_CHART):
-        data = create_chart(dict)
-    elif (dict['action'] == DELETE_CHART):
-        data = delete_chart(dict)
-    # data = []
+    if (dict['action'] == GET_DATA_FOR_GREENHOUSE):
+        data = send_response(configurations = True, containers = True, greenhouses = True, greenhouse = dict['id'], technology = True, users = True, charts = False, modules = True)
+    if (dict['action'] == GET_GREENHOUSES):
+        data = send_response(configurations = False, containers = False, greenhouses = True, greenhouse = '', technology = False, users = False, charts = False, modules = False)
+    if (dict['action'] == GET_USERS):
+        data = send_response(configurations = False, containers = False, greenhouses = False, greenhouse = '', technology = False, users = True, charts = False, modules = False)
+    # elif (dict['action'] == DELETE_CONTAINER):
+    #     data = delete_container(dict)
+    # elif (dict['action'] == DELETE_CONFIGURATION):
+    #     data = delete_configuration(dict)
+    # elif (dict['action'] == EDIT_CONTAINER):
+    #     data = edit_container(dict)
+    # elif (dict['action'] == EDIT_CONFIGURATION):
+    #     data = edit_configuration(dict)
+    # elif (dict['action'] == CREATE_CONFIGURATION):
+    #     data = create_configuration(dict)
+    # elif (dict['action'] == CREATE_CONTAINER):
+    #     data = create_container(dict)
     for list in data:
         ch.basic_publish(exchange='',routing_key=props.reply_to,properties=pika.BasicProperties(correlation_id = \
                                                                 props.correlation_id), body=list)
@@ -242,5 +176,3 @@ channel.basic_consume(queue='rpc_queue', on_message_callback=on_request)
 print(" [x] Awaiting RPC requests")
 print(" test #2")
 channel.start_consuming()
-
-

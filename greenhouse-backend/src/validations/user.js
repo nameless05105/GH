@@ -25,10 +25,17 @@ const password = Joi.string()
     }
   });
 
+const role = Joi.string()
+  .required();
+
+const greenhouse = Joi.string()
+
 export const signUp = Joi.object().keys({
   email,
   username,
-  password
+  password,
+  role,
+  greenhouse
 });
 
 export const signIn = Joi.object().keys({

@@ -2,7 +2,17 @@ import express from 'express';
 import mongoose from 'mongoose';
 import session from "express-session";
 import connectStore from "connect-mongo";
-import { userRoutes, sessionRoutes } from './routes/index'; 
+import cors from "cors";
+import bodyParser from "body-parser";
+import {  
+  userRoutes, 
+  sessionRoutes,
+  containerRoutes,
+  configurationRoutes,
+  technologyRoutes,
+  greenhouseRoutes,
+  moduleRoutes
+} from './routes/index'; 
 import {
   PORT, NODE_ENV, MONGO_URI, SESS_NAME, SESS_SECRET, SESS_LIFETIME
 } from "./config";
@@ -22,6 +32,10 @@ let socket = require('./modules/socket');
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
+
+    app.use(bodyParser.urlencoded({ extended: true }))
+    app.use(cors())
+    app.use(bodyParser.json())
 
     const MongoStore = connectStore(session);
 
@@ -46,10 +60,13 @@ let socket = require('./modules/socket');
     app.use('/api', apiRouter);
     apiRouter.use('/users', userRoutes);
     apiRouter.use('/session', sessionRoutes);
-
-    e.emit('startSocket');
-    
+    apiRouter.use('/container', containerRoutes);
+    apiRouter.use('/configuration', configurationRoutes);
+    apiRouter.use('/technology', technologyRoutes);
+    apiRouter.use('/greenhouse', greenhouseRoutes);
+    apiRouter.use('/module', moduleRoutes);
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
   } catch (err) {
     console.log(err);
   }

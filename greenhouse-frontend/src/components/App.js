@@ -1,32 +1,21 @@
 import React from "react";
-import Login from "./Login";
-import Signup from "./Signup";
-import Dashboard from "../components/Dashboard"
+import { Route } from "react-router-dom";
+import { ThemeProvider } from '@material-ui/core';
+import GlobalStyles from './GlobalStyles';
+import '../mixins/chartjs';
+import theme from '../theme';
 import { AuthRoute, ProtectedRoute } from "../util/route";
-import MainGroupsComponent from "../components/Groups/MainGroupsComponent";
-import MainManagementComponent from "../components/Management/MainManagementComponent";
-import Navbar from "../components/Navbar/Navbar";
-import GrowingPrograms from "./GrowingPrograms/GrowingPrograms";
-import MainChartsComponent from "./Charts/MainChartsComponent"
-import QRCode from "./QR/QRCode"
-
-import '../style/App.css';
+import DashboardLayout from '../layouts/DashboardLayout';
+import MainLayout from '../layouts/MainLayout';
+import MainPage from "./MainPage";
 
 export default () => (
   <>
-  <div className="App">
-    <Navbar/>
-    <div className='app-body' >
-      <AuthRoute path="/login" component={Login} />
-      <AuthRoute path="/signup" component={Signup} />
-      <ProtectedRoute path="/groups" exact component={MainGroupsComponent} />
-      <ProtectedRoute path="/allgroups" component={MainManagementComponent} />
-      <ProtectedRoute path="/growingprograms" component={GrowingPrograms} />
-      <ProtectedRoute path="/qr" component={QRCode} />
-      <ProtectedRoute path="/charts" component={MainChartsComponent} />
-      <ProtectedRoute path="/dashboard" component={Dashboard} />
-      </div>
-  </div>
-    
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <Route exact path="/" component={MainPage} />
+      <AuthRoute path="/login" component={MainLayout} />
+      <ProtectedRoute exact path="/app" component={DashboardLayout} />
+    </ThemeProvider>
   </>
 );
