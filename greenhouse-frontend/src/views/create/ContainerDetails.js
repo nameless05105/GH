@@ -56,6 +56,7 @@ class ContainerDetails extends React.Component{
                 fullWidth
                 label="Период ( количество минут )"
                 name="period"
+                type="number"
                 onChange={this.handleChangeSensorModulePeriod.bind(this, i)}
                 required
                 value={el.period||''}
@@ -71,6 +72,7 @@ class ContainerDetails extends React.Component{
                 fullWidth
                 label="Количество модулей"
                 name="count"
+                type="number"
                 onChange={this.handleChangeSensorModuleCount.bind(this, i)}
                 required
                 value={el.count||''}
@@ -102,7 +104,7 @@ class ContainerDetails extends React.Component{
               </Button>
             </Grid>
           </Grid>
-          {(this.state.sensors[i].structure.length == 0)? "" : <div>{this.createSensor(i)}</div>}
+          {(this.state.sensors[i].structure.length === 0)? "" : <div>{this.createSensor(i)}</div>}
         </>
       )      
     }
@@ -136,6 +138,7 @@ class ContainerDetails extends React.Component{
                 fullWidth
                 label="Период ( количество минут )"
                 name="period"
+                type="number"
                 onChange={this.handleChangeDeviceModulePeriod.bind(this, i)}
                 required
                 value={el.period||''}
@@ -149,11 +152,12 @@ class ContainerDetails extends React.Component{
             >
               <TextField
                 fullWidth
-                label="Период ( количество минут )"
-                name="period"
-                onChange={this.handleChangeDeviceModulePeriod.bind(this, i)}
+                label="Количество модулей"
+                name="count"
+                type="number"
+                onChange={this.handleChangeDeviceModuleCount.bind(this, i)}
                 required
-                value={el.period||''}
+                value={el.count||''}
                 variant="outlined"
               />
             </Grid>
@@ -182,7 +186,7 @@ class ContainerDetails extends React.Component{
               </Button>
             </Grid>
           </Grid>      
-          {(this.state.devices[i].structure.length == 0)? "" : <div>{this.createDevice(i)}</div>}
+          {(this.state.devices[i].structure.length === 0)? "" : <div>{this.createDevice(i)}</div>}
         </>
       )      
     }
@@ -220,6 +224,7 @@ class ContainerDetails extends React.Component{
               SelectProps={{ native: true }}
               onChange={this.handleChangeSensorType.bind(this, i, o)}
               value={el.type||''}
+              defaultValue=""
               variant="outlined"
             >
               <option value='Analog_signal'>Аналоговый сигнал</option>
@@ -248,6 +253,7 @@ class ContainerDetails extends React.Component{
               name="count"
               onChange={this.handleChangeSensorCount.bind(this, i,o)}
               required
+              type="number"
               value={el.count||''}
               variant="outlined"
             />
@@ -284,7 +290,7 @@ class ContainerDetails extends React.Component{
               color="textPrimary"
               variant="h6"
             >
-              Устройство {o+1}  для платы № {i+1}::
+              Устройство {o+1}  для платы № {i+1}:
             </Typography>
           </Grid>
           <Grid
@@ -301,6 +307,7 @@ class ContainerDetails extends React.Component{
               SelectProps={{ native: true }}
               onChange={this.handleChangeDeviceType.bind(this, i, o)}
               value={el.type||''}
+              defaultValue=""
               variant="outlined"
             >
               <option value='Signal_PWM'>ШИМ сигнал (ШИМ — от 0 до 4095)</option>
@@ -325,10 +332,11 @@ class ContainerDetails extends React.Component{
               SelectProps={{ native: true }}
               onChange={this.handleChangeDeviceTypeTime.bind(this, i, o)}
               value={el.time_type||''}
+              defaultValue=""
               variant="outlined"
             >
-              <option value='1'>Часы</option>
-              <option value='2'>Минуты</option>
+              <option value='hour'>Часы</option>
+              <option value='minute'>Минуты</option>
             </TextField>
             </Grid>
             <Grid
@@ -339,7 +347,8 @@ class ContainerDetails extends React.Component{
               <TextField
                 fullWidth
                 label="Частота работы"
-                name="period"
+                name="frequency"
+                type="number"
                 onChange={this.handleChangeDeviceFrequency.bind(this, i, o)}
                 required
                 value={el.frequency||''}
@@ -355,9 +364,10 @@ class ContainerDetails extends React.Component{
               fullWidth
               label="Период работы"
               name="period"
+              type="number"
               onChange={this.handleChangeDevicePeriod.bind(this, i, o)}
               required
-              value={el.type||''}
+              value={el.period||''}
               variant="outlined"
             />
           </Grid>
@@ -370,6 +380,7 @@ class ContainerDetails extends React.Component{
               fullWidth
               label="Смещения относительно начала отсчёта"
               name="bias"
+              type="number"
               onChange={this.handleChangeDeviceBias.bind(this, i, o)}
               required
               value={el.bias||''}
@@ -384,7 +395,8 @@ class ContainerDetails extends React.Component{
             <TextField
               fullWidth
               label="Количество одинаковых устройств"
-              name="period"
+              name="count"
+              type="number"
               onChange={this.handleChangeDeviceCount.bind(this, i, o)}
               required
               value={el.count||''}
@@ -412,11 +424,11 @@ class ContainerDetails extends React.Component{
     }
 
     handleChangeAddress(event) {
-      this.setState({ address:event.target.value });
+      this.setState({ address:parseInt(event.target.value) });
     }
     
     handleChangeChannel(event) {
-      this.setState({ channel:event.target.value });
+      this.setState({ channel:parseInt(event.target.value) });
     }
 
     handleChangeDeviceType(i, o, event) {
@@ -433,49 +445,49 @@ class ContainerDetails extends React.Component{
 
     handleChangeDeviceFrequency(i, o, event) {
         let devices = [...this.state.devices];
-        devices[i].structure[o].frequency = event.target.value;
+        devices[i].structure[o].frequency = parseInt(event.target.value);
         this.setState({ devices });
     }
 
     handleChangeDevicePeriod(i, o, event) {
         let devices = [...this.state.devices];
-        devices[i].structure[o].period = event.target.value;
+        devices[i].structure[o].period = parseInt(event.target.value);
         this.setState({ devices });
     }
 
     handleChangeDeviceBias(i, o, event) {
         let devices = [...this.state.devices];
-        devices[i].structure[o].bias = event.target.value;
+        devices[i].structure[o].bias = parseInt(event.target.value);
         this.setState({ devices });
     }
 
     handleChangeDeviceCount(i, o, event) {
         let devices = [...this.state.devices];
-        devices[i].structure[o].count = event.target.value;
+        devices[i].structure[o].count = parseInt(event.target.value);
         this.setState({ devices });
     }
 
     handleChangeDeviceModulePeriod(i, event) {
         let devices = [...this.state.devices];
-        devices[i].period = event.target.value;
+        devices[i].period = parseInt(event.target.value);
         this.setState({ devices });
     }
 
     handleChangeDeviceModuleCount(i, event) {
         let devices = [...this.state.devices];
-        devices[i].count = event.target.value;
+        devices[i].count = parseInt(event.target.value);
         this.setState({ devices });
     }
 
     handleChangeSensorModulePeriod(i, event) {
         let sensors = [...this.state.sensors];
-        sensors[i].period = event.target.value;
+        sensors[i].period = parseInt(event.target.value);
         this.setState({ sensors });
     }
 
     handleChangeSensorModuleCount(i, event) {
         let sensors = [...this.state.sensors];
-        sensors[i].count = event.target.value;
+        sensors[i].count = parseInt(event.target.value);
         this.setState({ sensors });
     }
     
@@ -487,7 +499,7 @@ class ContainerDetails extends React.Component{
 
     handleChangeSensorCount(i, o, event) {
         let sensors = [...this.state.sensors];
-        sensors[i].structure[o].count = event.target.value;
+        sensors[i].structure[o].count = parseInt(event.target.value);
         this.setState({ sensors });
     }
 
@@ -537,11 +549,16 @@ class ContainerDetails extends React.Component{
     
     save = async () => {
         const name = this.state.name;
-        const address = this.state.address;
-        const channel = this.state.channel;
+        const address = parseInt(this.state.address);
+        const channel = parseInt(this.state.channel);
         const sensors = this.state.sensors;
         const devices = this.state.devices;
         const greenhouse = this.props.greenhouse.id;
+        const wifi = {
+              "name": "name",
+              "pass": "password",
+              "ip": "192.168.0.13"
+            }
         if (name !== '') {
             const data = {
                 name,
@@ -549,7 +566,8 @@ class ContainerDetails extends React.Component{
                 channel,
                 sensors,
                 devices,
-                greenhouse
+                greenhouse,
+                wifi
             };
             this.setState({err:''})
             await api.insertContainer(data).then(res => {
@@ -605,8 +623,9 @@ class ContainerDetails extends React.Component{
                   >
                     <TextField
                       fullWidth
-                      label="Числовое значение номера частотного канала"
+                      label="Номер частотного канала"
                       name="channel"
+                      type="number"
                       onChange={this.handleChangeChannel.bind(this)}
                       required
                       value={this.state.channel}
@@ -622,6 +641,7 @@ class ContainerDetails extends React.Component{
                       fullWidth
                       label="Адрес группы"
                       name="address"
+                      type="number"
                       onChange={this.handleChangeAddress.bind(this)}
                       required
                       value={this.state.address}

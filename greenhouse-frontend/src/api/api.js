@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://smart-glow.ru/api',
+  // baseURL: 'http://localhost:5000/api',
 });
 
 export const insertContainer = (payload) => api.post(`/container/container`, payload);
@@ -24,9 +25,18 @@ export const getTechnologyById = (id) => api.get(`/technology/technology/id/${id
 export const getTechnologyByContainerId = (id) => api.get(`/technology/technology/container/${id}`);
 
 export const getGreenhouses = () => api.get(`/greenhouse/greenhouses`);
+export const insertGreenhouse = (payload) => api.post(`/greenhouse/greenhouse`, payload);
 
 export const getUsers = () => api.get(`/users/users/`);
 export const getModules = () => api.get(`/module/modules/`);
+
+export const getOneDayDataModules = () => api.get(`/one/onedaydatamodules/`);
+
+export const updateParameter = (payload) => api.post(`/parameters/parameter`, payload);
+
+export const insertReport = (payload) => api.post(`/report/report`, payload);
+export const getAllReports = () => api.get(`/report/report/`);
+export const deleteReportById = (id) => api.delete(`/report/report/${id}`);
 
 const apis = {
   insertContainer,
@@ -51,7 +61,15 @@ const apis = {
   getTechnologyByContainerId,
   
   getGreenhouses,
-  getModules
+  insertGreenhouse,
+  getModules,
+  getOneDayDataModules,
+  
+  updateParameter,
+
+  insertReport,
+  getAllReports,
+  deleteReportById
 };
 
 export default apis

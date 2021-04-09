@@ -11,7 +11,11 @@ import {
   configurationRoutes,
   technologyRoutes,
   greenhouseRoutes,
-  moduleRoutes
+  moduleRoutes,
+  onedaydataRoutes,
+  sensorRoutes,
+  paramRoutes,
+  reportRoutes
 } from './routes/index'; 
 import {
   PORT, NODE_ENV, MONGO_URI, SESS_NAME, SESS_SECRET, SESS_LIFETIME
@@ -20,12 +24,13 @@ import {
 const e = require('./modules/event.js');
 let channel = require('./modules/channel');
 let socket = require('./modules/socket');
+e.emit('startSocket');
 
 (async () => {
   try {
     await mongoose.connect(MONGO_URI, { useNewUrlParser: true });
     console.log('MongoDB connected');
-
+   
     const app = express();
 
     app.disable('x-powered-by');
@@ -51,7 +56,7 @@ let socket = require('./modules/socket');
       resave: false,
       cookie: {
         sameSite: true,
-        secure: NODE_ENV === 'production',
+        secure: NODE_ENV === 'development',
         maxAge: parseInt(SESS_LIFETIME)
       }
     }));
@@ -65,8 +70,14 @@ let socket = require('./modules/socket');
     apiRouter.use('/technology', technologyRoutes);
     apiRouter.use('/greenhouse', greenhouseRoutes);
     apiRouter.use('/module', moduleRoutes);
+    apiRouter.use('/one', onedaydataRoutes);
+    apiRouter.use('/sensor', sensorRoutes);
+    apiRouter.use('/parameters', paramRoutes);
+    apiRouter.use('/report', reportRoutes);
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
+
+   
   } catch (err) {
     console.log(err);
   }

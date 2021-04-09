@@ -214,7 +214,7 @@ class ConfigurationDetails extends React.Component{
             variant="outlined"
           >
               {
-                this.state.container.sensors.length == 0 ? <></> :
+                this.state.container.sensors.length === 0 ? <></> :
                   this.state.container.sensors.map(sensors => (
                     sensors.structure.map(sensor =>
                         <option value={sensor.type}>Сенсор: {sensor.type}</option>                           
@@ -222,7 +222,7 @@ class ConfigurationDetails extends React.Component{
                 ))
               }
 
-              {this.state.container.devices.length == 0 ? <></> :
+              {this.state.container.devices.length === 0 ? <></> :
                 this.state.container.devices.map(devices => (
                     devices.structure.map(device =>
                         <option value={device.type}>Устройство: {device.type}</option>                           
@@ -297,7 +297,7 @@ class ConfigurationDetails extends React.Component{
                 </Button>
               </Grid>
     let technology;
-    if (this.state.technology.illumination == '') {
+    if (this.state.technology.illumination === '') {
       technology = <>
                     <Grid
                       item

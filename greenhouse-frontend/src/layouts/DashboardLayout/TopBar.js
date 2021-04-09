@@ -35,7 +35,7 @@ const TopBar = ({
   className,
   onMobileNavOpen,
   logout,
-  ...rest,
+  ...rest
 }) => {
   const classes = useStyles();
   const [notifications] = useState([]);
@@ -66,8 +66,8 @@ const TopBar = ({
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit" >
-            <InputIcon onClick={logout}
+          <IconButton color="inherit" onClick={logout}>
+            <InputIcon 
             />
           </IconButton>
         </Hidden>

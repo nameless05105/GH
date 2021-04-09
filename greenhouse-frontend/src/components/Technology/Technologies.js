@@ -24,8 +24,12 @@ class Technologies extends Component {
     this.setState({ isLoading: true });
 
     await api.getTechnologies(this.props.greenhouse.id).then(technologies => {
+      let q = [];
+      if (technologies.data.data != undefined){
+        q = technologies.data.data
+      }
       this.setState({
-        technologies: technologies.data.data,
+        technologies: q,
         isLoading: false,
       });
     });

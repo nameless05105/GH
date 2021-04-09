@@ -24,11 +24,16 @@ class Containers extends Component {
     this.setState({ isLoading: true });
 
     await api.getAllContainers(this.props.greenhouse.id).then(containers => {
+      let q = [];
+      if (containers.data.data != undefined){
+        q = containers.data.data
+      }
       this.setState({
-        containers: containers.data.data,
+        containers: q,
         isLoading: false,
       });
     });
+   
   }
 
   render() {

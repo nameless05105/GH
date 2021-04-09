@@ -19,10 +19,16 @@ import EditConfiguration from "../../views/edit/EditConfiguration";
 import Containers from "../../components/Containers/Containers";
 import Users from "../../components/Users/Users";
 import Configurations from "../../components/Configurations/Configurations";
-import Dashboard from '../../components/Charts/Dashbords';
+import Dashboard from '../../components/Dashbords/Dashbords';
+import Main from '../../components/Dashbords/Main';
+
+import Charts from '../../components/Charts/Charts';
 
 import Greenhouses from '../../components/Greenhouses/Greenhouses';
+import CreateGreenhouse from "../../views/create/CreateGreenhouse";
 
+import Reports from '../../components/Reports/Reports';
+import CreateReport from '../../components/Reports/CreateReport';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
 const DashboardLayout = (session) => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+
+
   if (session.role === "1") {
     return (
       <div className={classes.root}>
@@ -75,6 +83,7 @@ const DashboardLayout = (session) => {
               {/* <ProtectedRoute path="/app/users" component={Users} />  */}
               <ProtectedRoute path="/app/dashboard" component={Dashboard} />
               {/* <ProtectedRoute path="/app/greenhouses" component={Greenhouses} />  */}
+
             </div>
           </div>
         </div>
@@ -105,8 +114,17 @@ const DashboardLayout = (session) => {
             <ProtectedRoute path="/app/containers" component={Containers} />  
             <ProtectedRoute path="/app/configurations" component={Configurations} /> 
             <ProtectedRoute path="/app/users" component={Users} /> 
-            <ProtectedRoute path="/app/dashboard" component={Dashboard} />
-            <ProtectedRoute path="/app/greenhouses" component={Greenhouses} /> 
+            <ProtectedRoute path="/app/dashboard" component={Main} />
+
+            <ProtectedRoute path="/app/charts" component={Charts} />
+
+            <ProtectedRoute path="/app/greenhouses" component={Greenhouses} />
+            <ProtectedRoute path="/app/create-greenhouse" component={CreateGreenhouse} />  
+            <ProtectedRoute path="/app/edit-greenhouse/:id" component={EditTechnology} />  
+
+
+            <ProtectedRoute path="/app/newreport" component={CreateReport} />
+            <ProtectedRoute path="/app/reports" component={Reports} />
           </div>
         </div>
       </div>

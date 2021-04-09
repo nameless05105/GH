@@ -94,18 +94,19 @@ const Configuration = ({ className, configuration, ...rest }) => {
           gutterBottom
           variant="h5"
         >
-          Конфигурация:
-          {configuration.name}
+          {/* Конфигурация:
+          {configuration.name} */}
+          Инженер: testuser555
         </Typography>
         <Typography
           align="left"
           color="textPrimary"
           variant="body1"
         >
-          Условия:
+          Период: 16.03.2021 00:00  - 16.03.2021 23:59 
         </Typography>
 
-          {configuration.modules.map((elem) => (
+          {/* {configuration.modules.map((elem) => (
               <Typography
               align="left"
               color="textPrimary"
@@ -113,7 +114,7 @@ const Configuration = ({ className, configuration, ...rest }) => {
             >
               {elem.action} {elem.indicator} {elem.sensor} {elem.sign} {elem.value} 
             </Typography>
-            ))}
+            ))} */}
 
       </CardContent>
     </Card>

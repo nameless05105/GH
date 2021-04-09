@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -21,11 +21,18 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 
+import api from '../../../api/api';
+
 const admin = [
   {
     href: '/app/dashboard',
     icon: BarChartIcon,
-    title: 'Отслеживание датчиков'
+    title: 'Мониторинг'
+  },
+  {
+    href: '/app/charts',
+    icon: BarChartIcon,
+    title: 'Графики'
   },
   {
     href: '/app/users',
@@ -52,9 +59,19 @@ const admin = [
     icon: HomeIcon,
     title: 'Теплицы'
   },
+  {
+    href: '/app/newreport',
+    icon: BarChartIcon,
+    title: 'Создать отчет'
+  },
+  {
+    href: '/app/reports',
+    icon: PackageIcon,
+    title: 'Посмотреть отчеты'
+  },
 ];
 
-const ingener = [
+const technologist = [
   {
     href: '/app/dashboard',
     icon: BarChartIcon,
@@ -69,6 +86,20 @@ const ingener = [
     href: '/app/configurations',
     icon: SettingsIcon,
     title: 'Конфигурации'
+  },
+];
+
+
+const ingener = [
+  {
+    href: '/app/newreport',
+    icon: BarChartIcon,
+    title: 'Создать отчет'
+  },
+  {
+    href: '/app/reports',
+    icon: PackageIcon,
+    title: 'Посмотреть отчеты'
   },
 ];
 
@@ -92,13 +123,39 @@ const NavBar = ({ onMobileClose, openMobile, session, greenhouse }, props) => {
   const classes = useStyles();
   const location = useLocation();
 
+  const [values, setValues] = useState({
+    greenhouseName: ""
+  });
+
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    async function loadModules() {
+      const modules = await api.getGreenhouses();
+      setValues({
+        ...values,
+        greenhouseName: modules.data.data.find(green => green._id === greenhouse.id).name
+      });
+    }
+    
+    if (greenhouse.id !== '') loadModules();
+    
+  }, []);
+
   const adminMenu = admin.map((item) => (
+    <NavItem
+      href={item.href}
+      key={item.title}
+      title={item.title}
+      icon={item.icon}
+    />
+  ))
+
+  const technologistMenu = technologist.map((item) => (
     <NavItem
       href={item.href}
       key={item.title}
@@ -140,21 +197,33 @@ const NavBar = ({ onMobileClose, openMobile, session, greenhouse }, props) => {
           color="textSecondary"
           variant="body2"
         >
-          Роль пользователя: 
-          {session.role}
+          Роль: 
+          {(() => {
+                switch(session.role) {
+                  case "1":
+                    return "Главный технолог";
+                  case "2":
+                    return "Технолог";
+                  case "3":
+                    return "Инженер";
+                  default:
+                    return '';
+                }
+            })()}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
           Теплица:
-          {greenhouse.id}
+          {values.greenhouseName}
         </Typography>
       </Box>
       <Divider />
       <Box p={2}>
-        <List>
-          {(session.role === "1") ? adminMenu : ingenerMenu}
+        <List> 
+
+          {(session.role === "1") ? adminMenu : (session.role === "2") ? technologistMenu : ingenerMenu}
           
         </List>
       </Box>

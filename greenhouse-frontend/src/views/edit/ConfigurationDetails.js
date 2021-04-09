@@ -15,7 +15,10 @@ import {
   List,
   ListItem,
   IconButton,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
+  MenuItem,
+  Select,
+  InputLabel
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import api from '../../api/api';
@@ -228,7 +231,7 @@ class ConfigurationDetails extends React.Component{
             variant="outlined"
           >
               {
-                this.state.container.sensors.length == 0 ? <></> :
+                this.state.container.sensors.length === 0 ? <></> :
                   this.state.container.sensors.map(sensors => (
                       sensors.structure.map(sensor =>
                           <option value={sensor.type}>Сенсор: {sensor.type}</option>                           
@@ -236,7 +239,7 @@ class ConfigurationDetails extends React.Component{
                       ))
               }
 
-              {this.state.container.devices.length == 0 ? <></> :
+              {this.state.container.devices.length === 0 ? <></> :
                   this.state.container.devices.map(devices => (
                       devices.structure.map(device =>
                           <option value={device.type}>Устройство: {device.type}</option>                           
@@ -311,7 +314,7 @@ class ConfigurationDetails extends React.Component{
                 </Button>
               </Grid>
     let technology;
-    if (this.state.technology.illumination == '') {
+    if (this.state.technology.illumination === '') {
       technology = <>
                     <Grid
                       item
@@ -408,7 +411,23 @@ class ConfigurationDetails extends React.Component{
               md={6}
               xs={12}
             >
-                <TextField
+<InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          // value={age}
+          // onChange={handleChange}
+          variant="outlined"
+          label="Age"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>       
+                {/* <TextField
                   fullWidth
                   label="Контейнер"
                   name="container"
@@ -416,10 +435,9 @@ class ConfigurationDetails extends React.Component{
                   select
                   SelectProps={{ native: true }}
                   onChange={this.handleContainerChange.bind(this)}
-                  value={this.state.container._id}
+                  // value={this.state.container._id}
                   variant="outlined"
                 >
-                    <option value=''></option>
                   {this.state.containers.map(container =>
                     <option
                       key={container._id}
@@ -428,7 +446,7 @@ class ConfigurationDetails extends React.Component{
                       {container.name}
                     </option>
                   )}
-                </TextField>
+                </TextField> */}
             </Grid>
 
             <Grid

@@ -22,8 +22,12 @@ class Configurations extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
     await api.getConfigurations(this.props.greenhouse.id).then(configurations => {
+      let q = [];
+      if (configurations.data.data != undefined){
+        q = configurations.data.data
+      }
       this.setState({
-        configurations: configurations.data.data,
+        configurations: q,
         isLoading: false,
       });
     });

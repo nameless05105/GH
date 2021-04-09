@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import Page from '../Page';
 import api from '../../api/api';
+import Toolbar from './Toolbar';
 
 const mapStateToProps = ({ errors }) => ({
   errors
@@ -61,7 +62,7 @@ class Greenhouses extends React.Component {
   }
   
   render(){
-    // const { greenhouses, isLoading } = this.state;
+    const { greenhouses, isLoading } = this.state;
     const classes = makeStyles((theme) => ({
       root: {
         backgroundColor: theme.palette.background.dark,
@@ -75,7 +76,13 @@ class Greenhouses extends React.Component {
         <Page
         className={classes.root}
         title="Выбор теплицы"
-        ><br/><br/><br/>
+        >
+        <Container maxWidth={false}>
+          <Toolbar />
+          <Box mt={3}>
+            {/* <Results greenhouses={greenhouses} /> */}
+          </Box>
+        </Container>
           <Box
             display="flex"
             flexDirection="column"

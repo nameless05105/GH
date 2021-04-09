@@ -111,7 +111,7 @@ getConfigurations = async (req, res) => {
         if (!configurations.length) {
             return res
                 .status(404)
-                .json({ success: false, error: `cont not found` })
+                .json({ success: false, error: `configuration not found` })
         }
         return res.status(200).json({ success: true, data: configurations })
     }).catch(err => console.log(err))

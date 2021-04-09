@@ -4,33 +4,38 @@ const Schema = mongoose.Schema
 const Container = new Schema(
     {
         name: { type: String, required: true },
-        address: { type: String, required: true },
-        channel: { type: String, required: true },
+        address: { type: Number, required: true },
+        channel: { type: Number, required: true },
         greenhouse: { type: String, required: true },
         sensors: [{
-            count: { type: String },
-            period: { type: String},
+            count: { type: Number },
+            period: { type: Number},
             _id: false,
             structure: [{
                 type: { type: String },
-                count: { type: String },
+                count: { type: Number },
                 _id: false
             }]
         }],
         devices: [{
-            count: { type: String },
-            period: { type: String },
+            count: { type: Number },
+            period: { type: Number },
             _id: false,
             structure: [{
                 type: { type: String },
                 time_type: { type: String },
-                frequency: { type: String },
-                period: { type: String },
-                bias: { type: String },
-                count: { type: String },
+                frequency: { type: Number },
+                period: { type: Number },
+                bias: { type: Number },
+                count: { type: Number },
                 _id: false
             }]
-        }]
+        }],
+        wifi: {
+            name: { type: String },
+            pass: { type: String },
+            ip: { type: String }
+        }
     },
     { timestamps: false },
 )

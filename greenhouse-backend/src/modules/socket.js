@@ -2,269 +2,78 @@
 // var server = require('http').Server(app);
 // var Server = require('socket.io');
 const e = require('./event.js');
+const ContainerCtrl = require('../controllers/container-ctrl');
 
+const Container = require('../models/container')
 
 e.on('startSocket',  function Socket() {
   
   var io = require('socket.io')(8090);
-  // io = io.of('/sock');
   console.log('socket on')
 
     io.on('connection', (socket) => {
+      console.log("conn")
       
     socket.on('sendData', (data , message) => {
-      console.log(data, message);
-      if (message === 'Get_Data_for_Greenhouse') {
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        console.log('что отправляется в шину', json_str)
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          console.log(n)
-          socket.emit('UPDATE_CONFIGURATIONS', n.configurations);
-          socket.emit('UPDATE_CONTAINERS', n.containers);
-          socket.emit('UPDATE_TECHNOLOGY', n.technology);
-          socket.emit('UPDATE_USERS', n.users);
-          socket.emit('UPDATE_MODULES', n.modules);
-          socket.emit('UPDATE_GREENHOUSES', n.greenhouses);
-          })
-      }
-      if (message === 'Get_Greenhouses') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        console.log('что отправляется в шину', json_str)
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          console.log(n)
-          socket.emit('UPDATE_GREENHOUSES', n.greenhouses);
-          })
-      }
-      if (message === 'Get_Users') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        console.log('что отправляется в шину', json_str)
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          console.log(n)
-          socket.emit('UPDATE_USERS', n.users);
-          })
-      }
-      if (message === 'CREATE_DEVICE') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          console.log('channel', n)
-          socket.emit('UPDATE_DEVICE_DATA', n.devices);
-          socket.emit('UPDATE_GROUP_DATA', n.groups);
-          })
-      }
-      if (message === 'EDIT_DEVICE') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_DEVICE_DATA', n.devices);
-          socket.emit('UPDATE_GROUP_DATA', n.groups);
-          })
-      }
-      if (message === 'DELETE_DEVICE') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_DEVICE_DATA', n.devices);
-          socket.emit('UPDATE_GROUP_DATA', n.groups);
-          })
-      }
-      if (message === 'CREATE_GROUP') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_DEVICE_DATA', n.devices);
-          socket.emit('UPDATE_GROUP_DATA', n.groups);
-          })
-      }
-      if (message === 'EDIT_GROUP') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_DEVICE_DATA', n.devices);
-          socket.emit('UPDATE_GROUP_DATA', n.groups);
-          })
-      }
-      if (message === 'DELETE_GROUP') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_DEVICE_DATA', n.devices);
-          socket.emit('UPDATE_GROUP_DATA', n.groups);
-          })
-      }
-
-      if (message === 'CREATE_PROGRAM') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_PROGRAM_DATA', n.programs);
-          })
-      }
-
-      if (message === 'CREATE_CONFIGURATION') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_CONFIGURATION_DATA', n.configurations);
-          })
-      }
-
-      if (message === 'EDIT_CONFIGURATION') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_CONFIGURATION_DATA', n.configurations);
-          })
-      }
       
-      if (message === 'DELETE_CONFIGURATION') {
+      if (message === 'MODULES') {
         console.log(message)
         data.action = message;
         let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_CONFIGURATION_DATA', n.configurations);
+        e.emit('socket_modules', json_str);
+        e.on('channel_modules', n=>{
+          socket.emit('UPDATE_MODULES', n.modules);
           })
       }
 
-      if (message === 'CREATE_CONTAINER') {
+      if (message === 'GETDATA') {
+        console.log(message)
+        ContainerCtrl.getContainersName;
+        console.log("nanan",JSON.stringify(data))
+        let containersArray = []
+
+        // Container.find({}, {name:1, _id:0}, (err, containers) => {
+        //     if (err) {
+        //         return res.status(400).json({ success: false, error: err })
+        //     }
+        //     if (!containers.length) {
+        //         return res
+        //             .status(404)
+        //             .json({ success: false, error: 'container not found' })
+        //     }
+        //     containersArray = containers.map(function(obj) {
+        //         return obj.name;
+        //       });
+        //     console.log('rjyntqyths',containersArray)
+        //     socket.emit('REQUESTDATA', JSON.stringify(containersArray));
+        // }).catch(err => console.log(err))
+
+
+        Container.findOne({ name: 'c1' }, {action:0, _id:0, greenhouse:0, __v:0}, (err, container) => {
+            if (err) {
+              console.log('err')
+            }
+    
+            if (!container) {
+              console.log('not found')
+            }
+            console.log('rjyntqyths',container)
+            socket.emit('REQUESTDATA', JSON.stringify(container));
+        }).catch(err => console.log(err))
+      }
+
+      if (message === 'MODULES_FOR_DATE') {
         console.log(message)
         data.action = message;
         let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_CONTAINERS', n.containers);
+        e.emit('socket_modules_for_date', json_str);
+        e.on('channel_modules_for_date', n=>{
+          console.log(n.modules1)
+          socket.emit('UPDATE_MODULES_FOR_DATE', n.modules1);
           })
       }
-
-      if (message === 'EDIT_CONTAINER') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_CONTAINERS', n.containers);
-          })
-      }
-
-      if (message === 'DELETE_CONTAINER') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_CONTAINERS', n.containers);
-          })
-      }
-
-      if (message === 'EDIT_PROGRAM') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_PROGRAM_DATA', n.programs);
-          })
-      }
-
-      if (message === 'DELETE_PROGRAM') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_PROGRAM_DATA', n.programs);
-          })
-      }
-
-      if (message === 'START_PROGRAM') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_PROGRAM_DATA', n.programs);
-          })
-      }
-
-      if (message === 'STOP_PROGRAM') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_PROGRAM_DATA', n.programs);
-          })
-      }
-
-      if (message === 'PAUSE_PROGRAM') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_PROGRAM_DATA', n.programs);
-          })
-      }
-
-      if (message === 'CREATE_CHART') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_DEVICE_DATA', n.devices);
-          socket.emit('UPDATE_GROUP_DATA', n.groups);
-          socket.emit('UPDATE_SENSOR_DATA', n.sensors);
-          socket.emit('UPDATE_CHART_DATA', n.charts);
-          })
-      }
-
-      if (message === 'DELETE_CHART') {
-        console.log(message)
-        data.action = message;
-        let json_str = JSON.stringify(data);
-        e.emit('socket', json_str);
-        e.on('channel', n=>{
-          socket.emit('UPDATE_DEVICE_DATA', n.devices);
-          socket.emit('UPDATE_GROUP_DATA', n.groups);
-          socket.emit('UPDATE_SENSOR_DATA', n.sensors);
-          socket.emit('UPDATE_CHART_DATA', n.charts);
-          })
-      }
-
     });
-
   });
-
-}
-
-);
+});
 
 
