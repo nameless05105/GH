@@ -25,6 +25,8 @@ import { MicNone } from '@material-ui/icons';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
+import DisplayingSensors from "../Dashbords/DisplayingSensors";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -54,11 +56,13 @@ const Charts = ({ className, module, ...rest }) => {
     visible: false
   });
 
+  let obj = DisplayingSensors(module.type);
+
   useEffect(() => {
     let value = [];
     let time = [];
     for (let i = 0; i < module.values.length; i++) {
-      value.push(module.values[i].value);
+      value.push(Number(module.values[i].value));
       time.push(module.values[i].date.slice(11, 19));
     };
     setValues({
@@ -69,22 +73,6 @@ const Charts = ({ className, module, ...rest }) => {
     });
   }, [module.values]);
 
-  let name = "";
-  switch (module.type) {
-    case 'Air_humidity': 
-      name = "Влажность воздуха";
-      break;
-  
-    case 'Illumination_level': 
-      name = "Уровень освещенности";
-      break;
-
-    case 'Air_temperature': 
-      name = "Температура воздуха";
-      break;
-    default:
-      break;
-  }
 
   const data = {
     datasets: [
@@ -165,7 +153,7 @@ const Charts = ({ className, module, ...rest }) => {
       {...rest}
     >
       <CardHeader
-        title={[name,"   ", module.id]}
+        title={[obj.name]}
         avatar={
           <IconButton color="inherit" onClick={click}>
             {(values.visible)?<ArrowUpwardIcon />:<ArrowDownwardIcon />}

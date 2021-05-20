@@ -10,16 +10,13 @@ import {
   Grid,
   Typography,
   Button,
-  makeStyles
+  makeStyles,
+  TableCell,
+  TableRow
 } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import api from '../../api/api';
-
-import logo from '../../logo.png';
-
-// const logo = require('./logo.jpeg);
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,29 +37,137 @@ const Report = ({ className, report, ...rest }) => {
 
   const deleteReport = (event) => {
     event.preventDefault();
-    if (window.confirm('Подтверждение удаления отчеты', report._id)) {
-    //   api.deleteConfigurationById(report._id);
+    if (window.confirm('Подтверждение удаления отчета', report._id)) {
+      api.deleteReportById(report._id);
       window.location.reload();
     }
   };
-
+  console.log(new Date(report.startDate))
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
+    // <Card
+    //   className={clsx(classes.root, className)}
+    //   {...rest}
+    // >
+
+    //   <Box p={2}>
+    //     <Grid
+    //       container
+    //       justify="space-between"
+    //       spacing={2}
+    //     >
+    //       <Grid
+    //         className={classes.statsItem}
+    //         item
+    //       >
+
+    //         <Button
+    //           className={classes.statsIcon}
+    //           color="action"
+    //           onClick={deleteReport}
+    //         >
+    //           <DeleteIcon
+    //             className={classes.icon}
+    //             size="20"
+    //           />
+    //         </Button>
+
+    //         <Button
+    //           activeClassName={classes.active}
+    //           className={classes.statsIcon}
+    //           component={Link}
+    //           to={`/app/viewreport/${report._id}`}
+    //         >
+    //           <VisibilityIcon
+    //             className={classes.icon}
+    //             size="20"
+    //           />
+    //         </Button>
+    //       </Grid>
+    //     </Grid>
+    //   </Box>
+    //   <Divider />
+    //   <CardContent>
+    //     <Typography
+    //       align="left"
+    //       color="textPrimary"
+    //       gutterBottom
+    //       variant="h5"
+    //     >
+    //       Создана пользователем:
+    //       {report.username}
+    //     </Typography>
+    //     <Typography
+    //       align="left"
+    //       color="textPrimary"
+    //       variant="body1"
+    //     >
+    //       Культура: {report.culture}
+    //     </Typography>
+
+    //     <Typography
+    //       align="left"
+    //       color="textPrimary"
+    //       variant="body1"
+    //     >
+    //       Дата начала периода: {new Date(report.startDate).toLocaleString('ru-RU')}
+    //     </Typography>
+
+    //     <Typography
+    //       align="left"
+    //       color="textPrimary"
+    //       variant="body1"
+    //     >
+    //       Дата окончания периода: {new Date(report.endDate).toLocaleString('ru-RU')}
+    //     </Typography>
+
+    //     <Typography
+    //       align="left"
+    //       color="textPrimary"
+    //       variant="body1"
+    //     >
+    //       Ph: {report.ph}
+    //     </Typography>
+
+    //     <Typography
+    //       align="left"
+    //       color="textPrimary"
+    //       variant="body1"
+    //     >
+    //       EC: {report.ec}
+    //     </Typography>
+
+    //     <Typography
+    //       align="left"
+    //       color="textPrimary"
+    //       variant="body1"
+    //     >
+    //       Плотность посева: {report.seedingDensity}
+    //     </Typography>
+    
+    //   </CardContent>
+    // </Card>
+
+    <TableRow
+      hover
+      key={report.id}
     >
-
-      <Box p={2}>
-        <Grid
-          container
-          justify="space-between"
-          spacing={2}
-        >
-          <Grid
-            className={classes.statsItem}
-            item
-          >
-
+      {/* <TableCell>
+        {report.username}
+      </TableCell> */}
+      <TableCell>
+        {new Date(report.createdAt).toLocaleString('ru-RU')}
+      </TableCell>
+      <TableCell>
+        {new Date(report.startDate).toLocaleString('ru-RU')}
+      </TableCell>
+      <TableCell>
+        {new Date(report.endDate).toLocaleString('ru-RU')}
+      </TableCell>
+      <TableCell>
+        {report.culture}
+      </TableCell>
+      <TableCell>
+        
             <Button
               className={classes.statsIcon}
               color="action"
@@ -73,72 +178,22 @@ const Report = ({ className, report, ...rest }) => {
                 size="20"
               />
             </Button>
-          </Grid>
-        </Grid>
-      </Box>
-      <Divider />
-      <CardContent>
-        <Typography
-          align="left"
-          color="textPrimary"
-          gutterBottom
-          variant="h5"
-        >
-          Создана пользователем:
-          {report.username}
-        </Typography>
-        <Typography
-          align="left"
-          color="textPrimary"
-          variant="body1"
-        >
-          Культура: {report.culture}
-        </Typography>
 
-        <Typography
-          align="left"
-          color="textPrimary"
-          variant="body1"
-        >
-          Дата начала периода: {report.startDate}
-        </Typography>
+            <Button
+              activeClassName={classes.active}
+              className={classes.statsIcon}
+              component={Link}
+              to={`/app/viewreport/${report._id}`}
+            >
+              <VisibilityIcon
+                className={classes.icon}
+                size="20"
+              />
+            </Button>
 
-        <Typography
-          align="left"
-          color="textPrimary"
-          variant="body1"
-        >
-          Дата окончания периода: {report.endDate}
-        </Typography>
 
-        <Typography
-          align="left"
-          color="textPrimary"
-          variant="body1"
-        >
-          Ph: Дата окончания периода: {report.ph}
-        </Typography>
-
-        <Typography
-          align="left"
-          color="textPrimary"
-          variant="body1"
-        >
-          EC: Дата окончания периода: {report.ec}
-        </Typography>
-
-        <Typography
-          align="left"
-          color="textPrimary"
-          variant="body1"
-        >
-          Плотность пасева: {report.seedingDensity}
-        </Typography>
-        <img src={logo} />
-          
-
-      </CardContent>
-    </Card>
+      </TableCell>
+    </TableRow>
   );
 };
 

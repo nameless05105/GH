@@ -1,17 +1,9 @@
 import * as apiUtil from "../util/session";
 import { receiveErrors } from "./error";
+import { selectGreenhouse } from './greenhouse';
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
-
-export const UPDATE_GREENHOUSE = 'UPDATE_GREENHOUSE';
-
-export const updateGreenhouse = (state)  => {
-  return {
-      type: UPDATE_GREENHOUSE,
-      state
-  };
-};
 
 const receiveCurrentUser = user => ({
   type: RECEIVE_CURRENT_USER,
@@ -25,12 +17,9 @@ const logoutCurrentUser = () => ({
 export const login = user => async dispatch => {
   const response = await apiUtil.login(user);
   const data = await response.json();
-
+  console.log(data.greenhouse)
   if (response.ok) {
-    if (data.greenhouse !== '') {
-      dispatch(updateGreenhouse({id: data.greenhouse}));
-      window.sessionStorage.setItem('greenhouse', data.greenhouse);
-    }
+    dispatch(selectGreenhouse(data.greenhouse))
     return dispatch(receiveCurrentUser(data));
   }
   return dispatch(receiveErrors(data));

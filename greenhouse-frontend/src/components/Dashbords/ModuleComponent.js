@@ -12,12 +12,13 @@ import {
   colors
 } from '@material-ui/core';
 
-import {
-  Thermometer as ThermometerIcon
-} from 'react-feather';
+// import {
+//   Thermometer as ThermometerIcon
+// } from 'react-feather';
 
-import WbSunnyIcon from '@material-ui/icons/WbSunny';
-import InvertColorsIcon from '@material-ui/icons/InvertColors';
+// import WbSunnyIcon from '@material-ui/icons/WbSunny';
+// import InvertColorsIcon from '@material-ui/icons/InvertColors';
+import DisplayingSensors from "./DisplayingSensors";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -47,44 +48,47 @@ const ModuleComponent = ({ className, module, ...rest }) => {
   const [values, setValues] = useState({
     visible: false,
   });
-  let block;
-  let name;
-  let units;
+  // let block;
+  // let name;
+  // let units;
 
-  switch(module.type) {
-    case 'Air_humidity': 
-      name = "Влажность воздуха";
-      units = "%";
-      block =   <Grid item>
-                <Avatar className={classes.avatarHumidity}>
-                  <InvertColorsIcon />
-                </Avatar>
-              </Grid>
-      break;
+  let obj = DisplayingSensors(module.type);
+  // console.log(name, units, block);
+
+  // switch(module.type) {
+  //   case 'Air_humidity': 
+  //     name = "Влажность воздуха";
+  //     units = "%";
+  //     block =   <Grid item>
+  //               <Avatar className={classes.avatarHumidity}>
+  //                 <InvertColorsIcon />
+  //               </Avatar>
+  //             </Grid>
+  //     break;
   
-    case 'Illumination_level': 
-      name = "Уровень освещенности";
-      units = "Люкс"
-      block =   <Grid item>
-          <Avatar className={classes.avatarLight}>
-            <WbSunnyIcon />
-          </Avatar>
-        </Grid>
-      break;
+  //   case 'Illumination_level': 
+  //     name = "Уровень освещенности";
+  //     units = "Люкс"
+  //     block =   <Grid item>
+  //         <Avatar className={classes.avatarLight}>
+  //           <WbSunnyIcon />
+  //         </Avatar>
+  //       </Grid>
+  //     break;
 
-    case 'Air_temperature': 
-      name = "Температура воздуха";
-      units = "°C"
-      block =   <Grid item>
-          <Avatar className={classes.avatarTemp}>
-            <ThermometerIcon />
-          </Avatar>
-        </Grid>
-      break;
+  //   case 'Air_temperature': 
+  //     name = "Температура воздуха";
+  //     units = "°C"
+  //     block =   <Grid item>
+  //         <Avatar className={classes.avatarTemp}>
+  //           <ThermometerIcon />
+  //         </Avatar>
+  //       </Grid>
+  //     break;
       
-    default:
-      break;
-  }
+  //   default:
+  //     break;
+  // }
 
   
   return (
@@ -105,18 +109,20 @@ const ModuleComponent = ({ className, module, ...rest }) => {
               variant="h6"
               
             >
-                {name}
+                {obj.name}
               
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              {module.values.pop().value.toFixed(2)} {units}
+              {((typeof module.values.pop().value) === "boolean") ?  (module.values.pop().value) ? "Включено" : "Выключено" : module.values.pop().value.toFixed(2)} {obj.units}
+              {/* {Number(module.values.pop().value.toFixed(2))} {obj.units} */}
+              {/* module.values.pop().value.toFixed(2)} {obj.units} */}
               
             </Typography>
           </Grid>
-          {block}
+          {obj.block}
 
         </Grid>
       </CardContent>

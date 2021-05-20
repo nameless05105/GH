@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+// import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -15,6 +15,8 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
+
+import api from '../../api/api';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -37,6 +39,35 @@ const Results = ({ className, users, ...rest }) => {
   //   setPage(newPage);
   // };
 
+  const [values, setValues] = useState({
+    greenhouses: [],
+    isLoading: true,
+  });
+
+
+  useEffect(() => {
+    async function loadModules() {
+      const modules = await api.getGreenhouses();
+      console.log(modules.data.data);
+      setValues({
+        ...values,
+        greenhouses: modules.data.data,
+        isLoading: false
+      });
+    }
+    loadModules();
+    
+  }, []);
+
+  const setIdGreenhouseToName = (id) => {
+    if (id !== "") {
+      console.log(values.greenhouses)
+      let greenhouse = values.greenhouses.find(green => green._id === id);
+      console.log(greenhouse)
+      // console.log(greenhouse.name)
+    }
+  }
+
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -49,9 +80,6 @@ const Results = ({ className, users, ...rest }) => {
               <TableRow>
                 <TableCell>
                   Имя пользователя
-                </TableCell>
-                <TableCell>
-                  Email
                 </TableCell>
                 <TableCell>
                   Роль
@@ -69,26 +97,34 @@ const Results = ({ className, users, ...rest }) => {
                   selected={selectedCustomerIds.indexOf(user.id) !== -1}
                 >
                   <TableCell>
-                    <Box
+                    {/* <Box
                       alignItems="center"
                       display="flex"
                     >
                       <Typography
                         color="textPrimary"
                         variant="body1"
-                      >
+                      > */}
                         {user.username}
-                      </Typography>
-                    </Box>
+                      {/* </Typography>
+                    </Box> */}
                   </TableCell>
                   <TableCell>
-                    {user.email}
+                    {(() => {
+                        switch(user.role) {
+                          case "1":
+                            return "Главный технолог";
+                          case "2":
+                            return "Технолог";
+                          case "3":
+                            return "Инженер";
+                          default:
+                            return '';
+                        }
+                    })()}
                   </TableCell>
                   <TableCell>
-                    {user.role}
-                  </TableCell>
-                  <TableCell>
-                    {user.greenhouse}
+                    {((values.isLoading) || (user.greenhouse === "")) ? "" : values.greenhouses.find(green => green._id === user.greenhouse).name  }
                   </TableCell>
                 </TableRow>
               ))}

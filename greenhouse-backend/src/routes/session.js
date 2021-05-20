@@ -9,17 +9,16 @@ const sessionRouter = express.Router();
 
 sessionRouter.post("", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    await Joi.validate({ email, password }, signIn);
+    const { username, password } = req.body;
+    await Joi.validate({ username, password }, signIn);
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
     if (user && user.comparePasswords(password)) {
       const sessionUser = sessionizeUser(user);
-
       req.session.user = sessionUser
       res.send(sessionUser);
     } else {
-      throw new Error('Неверные логин или пароль');
+      throw new Error('Invalid login credentials');
     }
   } catch (err) {
     res.status(401).send(parseError(err));
@@ -36,7 +35,7 @@ sessionRouter.delete("", ({ session }, res) => {
         res.send(user);
       });
     } else {
-      throw new Error('Error');
+      throw new Error('Something went wrong');
     }
   } catch (err) {
     res.status(422).send(parseError(err));

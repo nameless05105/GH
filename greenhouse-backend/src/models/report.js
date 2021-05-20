@@ -10,7 +10,17 @@ const Report = new Schema(
         ec: { type: String, required: true },
         seedingDensity: { type: String, required: true },
         img: { type: String },
-        sensors: { type: Array, required: true },
+        sensors: [{
+            type: { type: String },
+            key: { type: String },
+            id: { type: String },
+            _id: { type: String },
+            values: [{
+                date: { type: String },
+                value: { type: Number },
+                _id: false
+            }]
+        }],
         username: { type: String, required: true },
     },
     { timestamps: false },

@@ -9,7 +9,7 @@ export const login = user => (
 );
 
 export const signup = user => (
-  fetch("api/users", {
+  fetch("/api/users", {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
@@ -25,12 +25,12 @@ export const logout = () => (
 export const checkLoggedIn = async () => {
   const response = await fetch('/api/session');
   const { user } = await response.json();
+  // let greenhouse = sessionStorage.getItem('greenhouse')
   let preloadedState = {};
-  let greenhouse = sessionStorage.getItem('greenhouse')
   if (user) {
     preloadedState = {
       session: user,
-      greenhouseReducer: {id: greenhouse}
+      greenhouseReducer: {id: user.greenhouse}
     };
   }
   return preloadedState;

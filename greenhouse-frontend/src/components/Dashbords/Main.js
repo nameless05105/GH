@@ -54,7 +54,7 @@ class Dashboard extends Component {
       <Page
         title="Теплица"
       >
-        {(this.props.session.role === "3") ? <Redirect from="/" to="/app/newreport" /> : <></>}
+        {/* {(this.props.session.role === "3") ? <Redirect from="/" to="/app/newreport" /> : <></>} */}
       {block}
       <Dialog open={this.props.greenhouse.id === ""}  aria-labelledby="form-dialog-title" fullWidth={true} maxWidth={'sm'}>
         <Modal/>

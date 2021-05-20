@@ -4,7 +4,10 @@ import {
   Grid,
   Typography,
   TextField,
-  Divider
+  Button,
+  Divider,
+  Box,
+  CircularProgress
 } from '@material-ui/core';
 import Charts from './Charts';
 import {sendData} from '../../index';
@@ -12,11 +15,13 @@ import { connect } from "react-redux";
 import ModuleComponent from "./ModuleComponent";
 import IngenerDashbords from './IngenerDashbords';
 
+
 import api from '../../api/api';
 
 const mapStateToProps = state => {
   return {
     modules: state.moduleReducer,
+    сombinedModules: state.сombinedModulesReducer,
     greenhouse: state.greenhouseReducer,
     session: state.session
   };
@@ -27,23 +32,31 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       isLoading: false,
+      // isLoadingDataModule: true,
       greenhouseName:"",
+      status: true
     };
+
+    this.changeStatus = this.changeStatus.bind(this);
   }
 
-  // componentDidMount = () => {
-  //     sendData({greenhouse:this.props.greenhouse.id},'MODULES');
-  // }
 
   componentDidMount = async () => {
     sendData({greenhouse:this.props.greenhouse.id},'MODULES');
+    // sendData({},'COMBINED_MODULES');
+    // sendData({container:'Рассадное отделение'},'Q-Container');
     this.setState({ isLoading: true });
     await api.getGreenhouses().then(greenhouses => {
       this.setState({
-        greenhouseName: greenhouses.data.data.find(green => green._id === this.props.greenhouse.id).name,
+        // greenhouseName: greenhouses.data.data.find(green => green._id === this.props.greenhouse.id).name,
         isLoading: false,
+        greenhouseName: ""
       });
     });
+  }
+
+  changeStatus(){
+    this.setState({ status: !this.state.status });
   }
 
   render() {
@@ -56,20 +69,22 @@ class Dashboard extends Component {
          }
       })
     }
-    let plata = mass.map((plata) => (
+    console.log("mass",mass)
+    let platas = mass.sort().map((plata) => (
       <><br></br>
       <Grid
         container
         spacing={3}
         key={plata}
       > 
-      {(this.props.session.role !== '3') ? 
+      
+      
         <Grid
           item
-          lg={12}
-          sm={12}
-          xl={12}
-          xs={12}
+          lg={6}
+          sm={6}
+          xl={6}
+          xs={6}
         >
           <Typography
             color="textPrimary"
@@ -85,10 +100,22 @@ class Dashboard extends Component {
             Контейнер: Рассадное отделение
           </Typography>
 
-        </Grid> : "" }
+        </Grid> 
+        <Grid
+        item
+        lg={6}
+        sm={6}
+        xl={6}
+        xs={6}
+      >
+        
+        <Button color="primary" onClick={this.changeStatus}>{(this.state.status)?"Выключить":"Включить"}</Button>
+
+      </Grid>
+      
 
 
-      {(this.props.session.role !== '3') ?  
+      {
         this.props.modules.filter((elem) => elem.id === plata).map((elem) => (
           <Grid
             item
@@ -100,7 +127,7 @@ class Dashboard extends Component {
           >
             <ModuleComponent module = {elem} plata = {plata}/>
           </Grid>
-        )) : "" }
+        ))}
 
 
 
@@ -142,10 +169,21 @@ class Dashboard extends Component {
               >
                 Теплица: {this.state.greenhouseName}
               </Typography>
+
+              {/* {platas} */}
+              {(this.props.modules === [])? 
+                  <Box
+                    display="flex" 
+                    width="100%" height={200}
+                  >
+                    <Box m="auto">
+                      <CircularProgress />
+                    </Box>
+                  </Box> : platas
+                  }
             </Grid>
           </Grid>
-          {(this.props.session.role === '3') ? <IngenerDashbords/> : ""}
-          {plata}
+          
         </Container>
       </>
 

@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://smart-glow.ru/api',
-  // baseURL: 'http://localhost:5000/api',
+  // baseURL: 'https://smart-glow.ru/api',
+  baseURL: 'http://localhost:5000/api',
+  // baseURL: 'http://31.31.202.109:5000/api',
 });
 
 export const insertContainer = (payload) => api.post(`/container/container`, payload);
@@ -36,6 +37,7 @@ export const updateParameter = (payload) => api.post(`/parameters/parameter`, pa
 
 export const insertReport = (payload) => api.post(`/report/report`, payload);
 export const getAllReports = () => api.get(`/report/report/`);
+export const getReportById = (id) => api.get(`/report/report/id/${id}`);
 export const deleteReportById = (id) => api.delete(`/report/report/${id}`);
 
 const apis = {
@@ -69,6 +71,7 @@ const apis = {
 
   insertReport,
   getAllReports,
+  getReportById,
   deleteReportById
 };
 

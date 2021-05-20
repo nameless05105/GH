@@ -9,24 +9,15 @@ const UserSchema = new mongoose.Schema({
       message: "Username already exists"
     }
   },
-  email: {
-    type: String,
-    validate: {
-      validator: email => User.doesNotExist({ email }),
-      message: "Email already exists"
-    }
-  },
   password: {
     type: String,
     required: true
   },
   role: {
-    type: String,
-    required: true
+    type: String
   },
   greenhouse: {
-    type: String,
-    required: true
+    type: String
   },
 }, { timestamps: true });
 

@@ -11,7 +11,6 @@ createContainer = (req, res) => {
     }
 
     const container = new Container(body)
-    console.log(body)
 
     if (!container) {
         return res.status(400).json({ success: false, error: err })
@@ -149,7 +148,6 @@ getContainersName = async (req, res) => {
         let containersArray = containers.map(function(obj) {
             return obj.name;
           });
-        console.log('rjyntqyths',containersArray)
         return containersArray;
     }).catch(err => console.log(err))
 }

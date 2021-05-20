@@ -75,7 +75,17 @@ const technologist = [
   {
     href: '/app/dashboard',
     icon: BarChartIcon,
-    title: 'Отслеживание датчиков'
+    title: 'Мониторинг'
+  },
+  {
+    href: '/app/charts',
+    icon: BarChartIcon,
+    title: 'Графики'
+  },
+  {
+    href: '/app/users',
+    icon: UsersIcon,
+    title: 'Пользователи'
   },
   {
     href: '/app/containers',
@@ -87,10 +97,45 @@ const technologist = [
     icon: SettingsIcon,
     title: 'Конфигурации'
   },
+  {
+    href: '/app/technology',
+    icon: SlidersIcon,
+    title: 'Технологии выращивания'
+  },
+  {
+    href: '/app/greenhouses',
+    icon: HomeIcon,
+    title: 'Теплицы'
+  },
+  {
+    href: '/app/newreport',
+    icon: BarChartIcon,
+    title: 'Создать отчет'
+  },
+  {
+    href: '/app/reports',
+    icon: PackageIcon,
+    title: 'Посмотреть отчеты'
+  },
 ];
 
 
 const ingener = [
+  {
+    href: '/app/dashboard',
+    icon: BarChartIcon,
+    title: 'Мониторинг'
+  },
+  {
+    href: '/app/charts',
+    icon: BarChartIcon,
+    title: 'Графики'
+  },
+  {
+    href: '/app/configurations',
+    icon: SettingsIcon,
+    title: 'Конфигурации'
+  },
   {
     href: '/app/newreport',
     icon: BarChartIcon,
@@ -124,7 +169,8 @@ const NavBar = ({ onMobileClose, openMobile, session, greenhouse }, props) => {
   const location = useLocation();
 
   const [values, setValues] = useState({
-    greenhouseName: ""
+    greenhouses: [],
+    greenhouseName: []
   });
 
   useEffect(() => {
@@ -136,14 +182,15 @@ const NavBar = ({ onMobileClose, openMobile, session, greenhouse }, props) => {
   useEffect(() => {
     async function loadModules() {
       const modules = await api.getGreenhouses();
+      let greenhouse = modules.data.data.find(green => green._id === session.greenhouse);
       setValues({
         ...values,
-        greenhouseName: modules.data.data.find(green => green._id === greenhouse.id).name
+        greenhouses: modules.data.data,
+        // greenhouseName: modules.data.data.find(green => green._id === greenhouse.id).name
+        greenhouseName: "Лаборатория"
       });
     }
-    
-    if (greenhouse.id !== '') loadModules();
-    
+    loadModules();
   }, []);
 
   const adminMenu = admin.map((item) => (
@@ -188,10 +235,10 @@ const NavBar = ({ onMobileClose, openMobile, session, greenhouse }, props) => {
         <Typography
           className={classes.name}
           color="textPrimary"
-          variant="h5"
+          variant="h6"
         >
-          Пользователь:
-          {session.username}
+          Пользователь: 
+          {" " + session.username}
         </Typography>
         <Typography
           color="textSecondary"
@@ -201,11 +248,11 @@ const NavBar = ({ onMobileClose, openMobile, session, greenhouse }, props) => {
           {(() => {
                 switch(session.role) {
                   case "1":
-                    return "Главный технолог";
+                    return " Главный технолог";
                   case "2":
-                    return "Технолог";
+                    return " Технолог";
                   case "3":
-                    return "Инженер";
+                    return " Инженер";
                   default:
                     return '';
                 }
@@ -216,7 +263,10 @@ const NavBar = ({ onMobileClose, openMobile, session, greenhouse }, props) => {
           variant="body2"
         >
           Теплица:
+          
+          {/* {((greenhouse.id !== "") && (values.greenhouses !== [])) ? values.greenhouseName : greenhouse.id} */}
           {values.greenhouseName}
+          {/* {session.greenhouse} */}
         </Typography>
       </Box>
       <Divider />
@@ -224,7 +274,7 @@ const NavBar = ({ onMobileClose, openMobile, session, greenhouse }, props) => {
         <List> 
 
           {(session.role === "1") ? adminMenu : (session.role === "2") ? technologistMenu : ingenerMenu}
-          
+          {/* {(session.role === "1") ? adminMenu : (session.role === "2") ? adminMenu : adminMenu} */}
         </List>
       </Box>
       <Box flexGrow={1} />

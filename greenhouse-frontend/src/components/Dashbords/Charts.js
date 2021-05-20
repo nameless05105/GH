@@ -32,6 +32,8 @@ import {
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import InvertColorsIcon from '@material-ui/icons/InvertColors';
 
+import DisplayingSensors from "./DisplayingSensors";
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -48,21 +50,21 @@ const useStyles = makeStyles((theme) => ({
     height: 30,
     width: 30
   },
-  avatarTemp: {
-    backgroundColor: colors.gray,
-    height: 56,
-    width: 56
-  },
-  avatarLight: {
-    backgroundColor: colors.gray,
-    height: 56,
-    width: 56
-  },
-  avatarHumidity: {
-    backgroundColor: colors.gray,
-    height: 56,
-    width: 56
-  }
+  // avatarTemp: {
+  //   backgroundColor: colors.gray,
+  //   height: 56,
+  //   width: 56
+  // },
+  // avatarLight: {
+  //   backgroundColor: colors.gray,
+  //   height: 56,
+  //   width: 56
+  // },
+  // avatarHumidity: {
+  //   backgroundColor: colors.gray,
+  //   height: 56,
+  //   width: 56
+  // }
 }));
 
 const Charts = ({ className, module, ...rest }) => {
@@ -79,7 +81,7 @@ const Charts = ({ className, module, ...rest }) => {
     let value = [];
     let time = [];
     for (let i = 0; i < module.values.length; i++) {
-      value.push(module.values[i].value);
+      value.push(Number(module.values[i].value));
       time.push(module.values[i].date.slice(11, 19));
     };
     setValues({
@@ -89,22 +91,24 @@ const Charts = ({ className, module, ...rest }) => {
     });
   }, [module.values]);
 
-  let name = "";
-  switch (module.type) {
-    case 'Air_humidity': 
-      name = "Влажность воздуха";
-      break;
-  
-    case 'Illumination_level': 
-      name = "Уровень освещенности";
-      break;
+  let obj = DisplayingSensors(module.type);
 
-    case 'Air_temperature': 
-      name = "Температура воздуха";
-      break;
-    default:
-      break;
-  }
+  // let name = "";
+  // switch (module.type) {
+  //   case 'Air_humidity': 
+  //     name = "Влажность воздуха";
+  //     break;
+  
+  //   case 'Illumination_level': 
+  //     name = "Уровень освещенности";
+  //     break;
+
+  //   case 'Air_temperature': 
+  //     name = "Температура воздуха";
+  //     break;
+  //   default:
+  //     break;
+  // }
   
 
   const data = {
@@ -175,35 +179,35 @@ const Charts = ({ className, module, ...rest }) => {
     }
   };
 
-  let block;
-  switch(module.type) {
-    case 'Air_humidity': 
-      block =   <Grid item>
-                <Avatar className={classes.avatarHumidity}>
-                  <InvertColorsIcon />
-                </Avatar>
-              </Grid>
-      break;
+  // let block;
+  // switch(module.type) {
+  //   case 'Air_humidity': 
+  //     block =   <Grid item>
+  //               <Avatar className={classes.avatarHumidity}>
+  //                 <InvertColorsIcon />
+  //               </Avatar>
+  //             </Grid>
+  //     break;
   
-    case 'Illumination_level': 
-      block =   <Grid item>
-          <Avatar className={classes.avatarLight}>
-            <WbSunnyIcon />
-          </Avatar>
-        </Grid>
-      break;
+  //   case 'Illumination_level': 
+  //     block =   <Grid item>
+  //         <Avatar className={classes.avatarLight}>
+  //           <WbSunnyIcon />
+  //         </Avatar>
+  //       </Grid>
+  //     break;
 
-    case 'Air_temperature': 
-      block =   <Grid item>
-          <Avatar className={classes.avatarTemp}>
-            <ThermometerIcon />
-          </Avatar>
-        </Grid>
-      break;
+  //   case 'Air_temperature': 
+  //     block =   <Grid item>
+  //         <Avatar className={classes.avatarTemp}>
+  //           <ThermometerIcon />
+  //         </Avatar>
+  //       </Grid>
+  //     break;
       
-    default:
-      break;
-  }
+  //   default:
+  //     break;
+  // }
 
   const click = () => {
     setValues({
@@ -219,7 +223,7 @@ const Charts = ({ className, module, ...rest }) => {
     >
       <CardHeader
         // title={[name,"   ", module.id]}
-        title={[name]}
+        title={[obj.name]}
         avatar={
           <IconButton color="inherit" onClick={click}>
             {(values.visible)?<ArrowUpwardIcon />:<ArrowDownwardIcon />}

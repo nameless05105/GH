@@ -11,10 +11,6 @@ import {
   configurationRoutes,
   technologyRoutes,
   greenhouseRoutes,
-  moduleRoutes,
-  onedaydataRoutes,
-  sensorRoutes,
-  paramRoutes,
   reportRoutes
 } from './routes/index'; 
 import {
@@ -28,20 +24,21 @@ e.emit('startSocket');
 
 (async () => {
   try {
-    await mongoose.connect(MONGO_URI, { useNewUrlParser: true });
+    await mongoose.connect(MONGO_URI, { 
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+     });
     console.log('MongoDB connected');
-   
+
     const app = express();
 
     app.disable('x-powered-by');
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-
     app.use(bodyParser.urlencoded({ extended: true }))
     app.use(cors())
     app.use(bodyParser.json())
-
     const MongoStore = connectStore(session);
 
     app.use(session({
@@ -56,7 +53,7 @@ e.emit('startSocket');
       resave: false,
       cookie: {
         sameSite: true,
-        secure: NODE_ENV === 'development',
+        secure: NODE_ENV === 'production',
         maxAge: parseInt(SESS_LIFETIME)
       }
     }));
@@ -69,15 +66,9 @@ e.emit('startSocket');
     apiRouter.use('/configuration', configurationRoutes);
     apiRouter.use('/technology', technologyRoutes);
     apiRouter.use('/greenhouse', greenhouseRoutes);
-    apiRouter.use('/module', moduleRoutes);
-    apiRouter.use('/one', onedaydataRoutes);
-    apiRouter.use('/sensor', sensorRoutes);
-    apiRouter.use('/parameters', paramRoutes);
     apiRouter.use('/report', reportRoutes);
+
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-
-
-   
   } catch (err) {
     console.log(err);
   }

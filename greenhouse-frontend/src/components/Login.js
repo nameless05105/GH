@@ -1,3 +1,53 @@
+// import React from "react";
+// import { connect } from "react-redux";
+// import { Link } from "react-router-dom";
+// import { login } from "../actions/session";
+
+// const mapStateToProps = ({ errors }) => ({
+//   errors
+// });
+
+// const mapDispatchToProps = dispatch => ({
+//   login: user => dispatch(login(user))
+// });
+
+// const Login = ({ errors, login }) => {
+
+//   const handleSubmit = e => {
+//     e.preventDefault();
+//     const user = {
+//       username: e.target[0].value,
+//       password: e.target[1].value,
+//     };
+
+//     login(user);
+//   }
+
+//   return (
+//     <>
+//       <h1>Авторизация</h1>
+//       <p>{errors}</p>
+//       <form onSubmit={handleSubmit}>
+//         <label>
+//           Username:
+//           <input type="text" name="username" />
+//         </label>
+//         <label>
+//           Password:
+//           <input type="password" name="password" />
+//         </label>
+//         <input type="submit" value="Submit" />
+//       </form>
+//       <Link to="/signup">Signup</Link>
+//     </>
+//   );
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Login);
+
 import React, { useState }from "react";
 import { connect } from "react-redux";
 import { login } from "../actions/session";
@@ -33,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = ({ errors, login }) => {
   const classes = useStyles();
   const [values, setValues] = useState({
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -77,11 +127,11 @@ const Login = ({ errors, login }) => {
 
               <TextField
                 fullWidth
-                label="Email"
+                label="Имя пользователя"
                 margin="normal"
-                name="email"
+                name="username"
                 onChange={handleChange}
-                type="email"
+                type="text"
                 value={values.email}
                 variant="outlined"
               />

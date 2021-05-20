@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import Page from '../Page';
 import Results from './User';
+import Toolbar from './Toolbar';
 import api from '../../api/api';
 
 class Users extends React.Component {
@@ -34,6 +35,7 @@ class Users extends React.Component {
         title="Пользователи"
       >
         <Container maxWidth={false}>
+          <Toolbar />
           <Box mt={3}>
             <Results users={users} />
           </Box>

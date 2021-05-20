@@ -18,6 +18,10 @@ import InputIcon from '@material-ui/icons/Input';
 import { logout } from "../../actions/session";
 import { connect } from "react-redux";
 
+const mapStateToProps = ({ session }) => ({
+  session
+});
+
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout())
 });
@@ -35,6 +39,7 @@ const TopBar = ({
   className,
   onMobileNavOpen,
   logout,
+  session,
   ...rest
 }) => {
   const classes = useStyles();
@@ -47,13 +52,21 @@ const TopBar = ({
       {...rest}
     >
       <Toolbar>
+        <Hidden lgUp>
+          <IconButton
+            color="inherit"
+            onClick={onMobileNavOpen}
+          > 
+            <MenuIcon />
+          </IconButton>
+        </Hidden>
         <RouterLink to="/">
-        <Typography
-          style={{color: "#FFFFFF"}}
-          variant="h2"
-        >
-        SMART GLOW
-        </Typography>
+          <Typography
+            style={{color: "#FFFFFF"}}
+            variant="h2"
+          >
+          SMART GLOW
+          </Typography>
         </RouterLink>
         <Box flexGrow={1} />
         <Hidden mdDown>
@@ -66,19 +79,12 @@ const TopBar = ({
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit" onClick={logout}>
-            <InputIcon 
+          <IconButton color="inherit" >
+            <InputIcon onClick={logout}
             />
           </IconButton>
         </Hidden>
-        <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onMobileNavOpen}
-          > 
-            <MenuIcon />
-          </IconButton>
-        </Hidden>
+
       </Toolbar>
     </AppBar>
   );
@@ -89,4 +95,4 @@ TopBar.propTypes = {
   onMobileNavOpen: PropTypes.func
 };
 
-export default connect(null, mapDispatchToProps)(TopBar);
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

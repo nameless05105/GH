@@ -15,7 +15,9 @@ import {
   FormControlLabel,
   FormGroup,
   Checkbox,
-  makeStyles
+  makeStyles,
+  CircularProgress,
+  LinearProgress
 } from '@material-ui/core';
 import api from '../../api/api';
 import { connect } from 'react-redux';
@@ -41,6 +43,8 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
     ec:'',
     seedingDensity:'',
     culture:'Редис',
+    notRenewableModules: modules,
+    isWaiting: false
   });
 
 
@@ -50,7 +54,6 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
 
 
   const handleCheckboxChange = (event) => {
-    console.log(event, event.target.id)
     let newArray = [...values.sensors, event.target.id];
     if (values.sensors.includes(event.target.id)) {
       newArray = newArray.filter(day => day !== event.target.id);
@@ -87,26 +90,100 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const payload = values;
-    console.log(payload);
     setValues({
-      startDate: '',
-      endDate: '',
-      username: session.username,
-      sensors:[],
-      ph:'',
-      ec:'',
-      seedingDensity:'',
-      culture:'Редис',
+      ...values,
+      isWaiting: true
     });
+    // console.log(payload);
+    // setValues({
+    //   startDate: '',
+    //   endDate: '',
+    //   username: session.username,
+    //   sensors:[],
+    //   ph:'',
+    //   ec:'',
+    //   seedingDensity:'',
+    //   culture:'Редис',
+    // });
     await api.insertReport(payload).then(res => {
-      window.alert("Отчет добавлен успешно")
+      setValues({
+        ...values,
+        isWaiting: false
+      });
+      window.alert("Отчет добавлен успешно");
     });
   };
 
+  const localeSensorName = (engName) => {
+    let ruName = "";
+    switch(engName) {
+      case 'Air_humidity': 
+        ruName = "Влажность воздуха";
+        break;
+      case 'Illumination_level': 
+        ruName = "Уровень освещенности";
+        break;
+      case 'Air_temperature': 
+        ruName = "Температура воздуха";
+        break;
+      case 'Analog_signal': 
+        ruName = "Аналоговый сигнал";
+        break;
+      case 'Discrete_signal': 
+        ruName = "Дискретный сигнал";
+        break;
+      case 'Battery_charge': 
+        ruName = "Заряд аккумулятора";
+        break;
+      case 'Water_temperature': 
+        ruName = "Температура воды";
+        break;
+      case 'Lamp_power': 
+        ruName = "Мощность ламп";
+        break;
+      case 'Pump_power': 
+        ruName = "Мощность насосов";
+        break;
+      case 'Indicator_pH': 
+        ruName = "Показатель pH";
+        break;
+      case 'Indicator_EC': 
+        ruName = "Показатель ЕС";
+        break;
+      case 'Indicator_eCO2': 
+        ruName = "Показатель eCO2";
+        break;
+      case 'Indicator_nYVOC': 
+        ruName = "Показатель nTVOC";
+        break;
+      case 'Signal_PWM': 
+        ruName = "ШИМ сигнал";
+        break;
+      case 'Signal_digital': 
+        ruName = "Цифровой сигнал";
+        break;    
+      case 'Fan_PWM': 
+          ruName = "Вентилятор (ШИМ)";
+          break;
+      case 'Pumping_system': 
+          ruName = "Насосная система";
+          break;
+      case 'Phytolamp_digital': 
+          ruName = "Фитолампа";
+          break;
+      case 'Phytolamp_PWM': 
+          ruName = "Фитолампа (ШИМ)";
+          break;
+      default:
+        break;
+    }
+    return ruName;
+  }
+
   const checkbox = modules.map((sensor) =>
     <FormControlLabel
-      control={<Checkbox  name={sensor.type}  onChange={handleCheckboxChange} id={sensor._id}/>}
-      label={sensor._id}
+      control={<Checkbox  name={sensor.type}  onChange={handleCheckboxChange} id={sensor._id} color="primary"/>}
+      label={localeSensorName(sensor.type) + ", ID устройства: " + sensor.id}
     />
   )
 
@@ -122,6 +199,7 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
         <CardHeader
           title="Создать новый отчет"
         />
+        
         <Divider />
         <CardContent>
           <Grid
@@ -130,7 +208,7 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
           >
             <Grid
               item
-              md={6}
+              md={4}
               xs={12}
             >
                 <TextField
@@ -156,6 +234,8 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
             </Grid>
             <Grid
               item
+              md={4}
+              xs={12}
             >
                <TextField
                   id="datetime-local"
@@ -174,6 +254,8 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
 
             <Grid
               item
+              md={4}
+              xs={12}
             >
                <TextField
                   id="datetime-local"
@@ -245,12 +327,8 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
               xs={12}
             >
               <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Датчики</FormLabel>
+                <FormLabel component="legend">Датчики:</FormLabel>
                 <FormGroup>
-                  {/* {(modules.length !== 0 ) ? 
-                    modules.map((elem) => {
-                    }) : <></>
-                  } */}
 
                   {checkbox}
                   
@@ -262,11 +340,11 @@ const ReportDetails = ({ className, greenhouse, modules, session, ...rest }) => 
           </Grid>
         </CardContent>
         <Divider />
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          p={2}
-        >
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            p={2}
+          >
           <Button
             color="primary"
             variant="contained"

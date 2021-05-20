@@ -10,8 +10,8 @@ import {
   TextField,
   Box,
   CardContent,
-  Button
-
+  Button,
+  CircularProgress
 
 } from '@material-ui/core';
 import Page from '../Page';
@@ -174,7 +174,18 @@ class Charts extends Component {
 
 
 
-        {platas}
+        {/* {platas} */}
+
+        {(this.props.modules_for_date == [])? 
+                  <Box
+                    display="flex" 
+                    width="100%" height={200}
+                  >
+                    <Box m="auto">
+                      <CircularProgress />
+                    </Box>
+                  </Box> : platas
+                  }
       </Container>
     </Page>
     );

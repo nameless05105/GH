@@ -9,17 +9,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const MainPage = (session) => {
-//   return (
-//     <>
-//     <Redirect from="/" to="/app/newreport" />
-//     {/* {console.log(session.role)}
-//       (session.role === "3") ? <Redirect from="/" to="/app/newreport" /> : <Redirect from="/" to="/app/dashboard" />  */}
-//     </>
-//   );
-// };
-
-// export default connect(mapStateToProps,null)(MainPage);
 
 export default () => (
   <>

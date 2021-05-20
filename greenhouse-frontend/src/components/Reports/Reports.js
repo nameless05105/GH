@@ -3,8 +3,15 @@ import { connect } from 'react-redux';
 import {
   Box,
   Container,
-  Grid
+  Grid,
+  Card,
+  TableCell,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody
 } from '@material-ui/core';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import api from '../../api/api';
 import Page from '../Page';
 import Report from './Report';
@@ -35,34 +42,82 @@ class Reports extends Component {
   render() {
     // const { configurations, isLoading } = this.state;
     return (
-        <Page
-          title="Конфигурации"
-          pt={3}
-          pb={3}
-        >
-          <Container maxWidth={false}>
-            <Box mt={3}>
-              <Grid
-                container
-                spacing={3}
-              >
-                {this.state.reports.map((report) => (
-                  <Grid
-                    item
-                    key={report.id}
-                    lg={12}
-                    md={12}
-                    xs={12}
-                  >
-                    <Report
-                      report={report}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          </Container>
-        </Page>
+        // <Page
+        //   title="Отчеты"
+        //   pt={3}
+        //   pb={3}
+        // >
+        //   <Container maxWidth={false}>
+        //     <Box mt={3}>
+        //       <Grid
+        //         container
+        //         spacing={3}
+        //       >
+        //         {this.state.reports.map((report) => (
+        //           <Grid
+        //             item
+        //             key={report.id}
+        //             lg={12}
+        //             md={12}
+        //             xs={12}
+        //           >
+        //             <Report
+        //               report={report}
+        //             />
+        //           </Grid>
+        //         ))}
+        //       </Grid>
+        //     </Box>
+        //   </Container>
+        // </Page>
+
+      <Page
+        title="Отчеты"
+      >
+        <Container maxWidth={false}>
+          <Box mt={3}>
+            {/* <Report reports={this.state.reports} /> */}
+
+
+            <Card>
+              <PerfectScrollbar>
+                <Box minWidth={1050}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        {/* <TableCell>
+                          Имя пользователя
+                        </TableCell> */}
+                        <TableCell>
+                          Дата создания
+                        </TableCell>
+                        <TableCell>
+                          Начало периода
+                        </TableCell>
+                        <TableCell>
+                          Окончание периода
+                        </TableCell>
+                        <TableCell>
+                          Культура
+                        </TableCell>
+                        <TableCell>
+                          
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {this.state.reports.map((report) => (
+                        <Report report={report}/>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Box>
+              </PerfectScrollbar>
+            </Card>
+
+          </Box>
+        </Container>
+      </Page>
       
     );
    }
